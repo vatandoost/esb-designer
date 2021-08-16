@@ -5,7 +5,7 @@ use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProjectTable extends Migration
+class CreateFunctionParamsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,16 @@ class CreateProjectTable extends Migration
      */
     public function up()
     {
-        Schema::create('project', function (Blueprint $table) {
+        Schema::create('function_params', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
-            $table->foreignUuid('main_ns_id');
-            $table->foreignId('owner_id');
+            $table->foreignUuid('function_id');
             $table->string('name');
+            $table->tinyInteger('dir_type');
+            $table->tinyInteger('value_type');
+            $table->boolean('is_public')->default(true);
+            $table->boolean('is_initializable')->default(true);
+            $table->text('default')->nullable();
+            $table->text('formula')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +35,6 @@ class CreateProjectTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project');
+        Schema::dropIfExists('function_params');
     }
 }

@@ -5,7 +5,7 @@ use Illuminate\Database\Query\Expression;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateProjectTable extends Migration
+class CreateVariableTable extends Migration
 {
     /**
      * Run the migrations.
@@ -14,11 +14,13 @@ class CreateProjectTable extends Migration
      */
     public function up()
     {
-        Schema::create('project', function (Blueprint $table) {
+        Schema::create('variable', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
-            $table->foreignUuid('main_ns_id');
-            $table->foreignId('owner_id');
             $table->string('name');
+            $table->text('value')->nullable();
+            $table->tinyInteger('type');
+            $table->tinyInteger('env')->nullable();
+            $table->nullableUuidMorphs('object');
             $table->timestamps();
         });
     }
@@ -30,6 +32,6 @@ class CreateProjectTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project');
+        Schema::dropIfExists('variable');
     }
 }

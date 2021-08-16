@@ -1,2 +1,3 @@
-# esb-designer
-ESB Designer
+# ESB Designer
+
+Enterprise service bus
