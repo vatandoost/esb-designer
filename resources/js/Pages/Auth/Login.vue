@@ -1,6 +1,5 @@
 <template>
   <Head title="Log in" />
-
   <ValidationErrors class="p-mb-4 w-full text-center" />
 
   <div v-if="status" class="p-mb-4 font-medium text-sm text-green-600">
@@ -8,7 +7,7 @@
   </div>
 
   <form @submit.prevent="submit">
-    <div class="flex align-items-center justify-content-center">
+    <div class="flex align-items-center justify-content-center mt-5">
       <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
         <div class="text-center mb-5">
           <img

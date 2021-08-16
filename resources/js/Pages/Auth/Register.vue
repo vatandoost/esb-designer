@@ -1,79 +1,140 @@
 <template>
-    <Head title="Register" />
+  <Head title="Log in" />
+  <ValidationErrors class="p-mb-4 w-full text-center" />
 
-    <BreezeValidationErrors class="mb-4" />
+  <div v-if="status" class="p-mb-4 font-medium text-sm text-green-600">
+    {{ status }}
+  </div>
 
-    <form @submit.prevent="submit">
+  <form @submit.prevent="submit">
+    <div class="flex align-items-center justify-content-center mt-5">
+      <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+        <div class="text-center mb-5">
+          <img
+            src="../../assets/logo.png"
+            alt="Image"
+            height="50"
+            class="mb-3"
+          />
+          <div class="text-900 text-3xl font-medium mb-3">Register</div>
+        </div>
+
         <div>
-            <BreezeLabel for="name" value="Name" />
-            <BreezeInput id="name" type="text" class="mt-1 block w-full" v-model="form.name" required autofocus autocomplete="name" />
-        </div>
+          <label for="name" class="block text-900 font-medium mb-2">Name</label>
+          <InputText
+            id="name"
+            name="name"
+            type="texr"
+            class="w-full mb-3"
+            v-model="form.name"
+            required
+            autofocus
+            autocomplete="Name"
+          />
 
-        <div class="mt-4">
-            <BreezeLabel for="email" value="Email" />
-            <BreezeInput id="email" type="email" class="mt-1 block w-full" v-model="form.email" required autocomplete="username" />
-        </div>
+          <label for="email1" class="block text-900 font-medium mb-2">
+            Email
+          </label>
+          <InputText
+            id="email1"
+            name="email"
+            type="email"
+            class="w-full mb-3"
+            v-model="form.email"
+            required
+            autofocus
+            autocomplete="username"
+          />
 
-        <div class="mt-4">
-            <BreezeLabel for="password" value="Password" />
-            <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="new-password" />
-        </div>
+          <label for="password" class="block text-900 font-medium mb-2">
+            Password
+          </label>
+          <InputText
+            id="password"
+            type="password"
+            v-model="form.password"
+            required
+            autocomplete="new-password"
+            class="w-full mb-3"
+          />
+          <label for="password_confirmation" class="block text-900 font-medium mb-2">
+            Confirm Password
+          </label>
+          <InputText
+            id="password_confirmation"
+            type="password"
+            v-model="form.password_confirmation"
+            required
+            autocomplete="new-password"
+            class="w-full mb-3"
+          />
 
-        <div class="mt-4">
-            <BreezeLabel for="password_confirmation" value="Confirm Password" />
-            <BreezeInput id="password_confirmation" type="password" class="mt-1 block w-full" v-model="form.password_confirmation" required autocomplete="new-password" />
-        </div>
-
-        <div class="flex items-center justify-end mt-4">
-            <Link :href="route('login')" class="underline text-sm text-gray-600 hover:text-gray-900">
-                Already registered?
+          <div class="flex align-items-center justify-content-between mb-6">
+            <Link
+              :href="route('login')"
+              class="
+                font-medium
+                no-underline
+                ml-2
+                text-blue-500 text-right
+                cursor-pointer
+              "
+            >
+              Already registered?
             </Link>
+          </div>
 
-            <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Register
-            </BreezeButton>
+          <Button
+            label="Register"
+            icon="pi pi-user"
+            class="w-full"
+            :class="{ 'opacity-25': form.processing }"
+            :disabled="form.processing"
+            type="submit"
+          ></Button>
         </div>
-    </form>
+      </div>
+    </div>
+  </form>
 </template>
 
 <script>
-import BreezeButton from '@/Components/Button.vue'
-import BreezeGuestLayout from '@/Layouts/Guest.vue'
-import BreezeInput from '@/Components/Input.vue'
-import BreezeLabel from '@/Components/Label.vue'
-import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
-import { Head, Link } from '@inertiajs/inertia-vue3';
+import GuestLayout from "@/Layouts/Guest.vue";
+import ValidationErrors from "@/Components/ValidationErrors.vue";
+import { Head, Link } from "@inertiajs/inertia-vue3";
 
 export default {
-    layout: BreezeGuestLayout,
+  layout: GuestLayout,
 
-    components: {
-        BreezeButton,
-        BreezeInput,
-        BreezeLabel,
-        BreezeValidationErrors,
-        Head,
-        Link,
+  components: {
+    ValidationErrors,
+    Head,
+    Link,
+  },
+
+  props: {
+    canResetPassword: Boolean,
+    status: String,
+  },
+
+  data() {
+    return {
+      form: this.$inertia.form({
+        name: "",
+        email: "",
+        password: "",
+        password_confirmation: "",
+        terms: false,
+      }),
+    };
+  },
+
+  methods: {
+    submit() {
+      this.form.post(this.route("register"), {
+        onFinish: () => this.form.reset("password", "password_confirmation"),
+      });
     },
-
-    data() {
-        return {
-            form: this.$inertia.form({
-                name: '',
-                email: '',
-                password: '',
-                password_confirmation: '',
-                terms: false,
-            })
-        }
-    },
-
-    methods: {
-        submit() {
-            this.form.post(this.route('register'), {
-                onFinish: () => this.form.reset('password', 'password_confirmation'),
-            })
-        }
-    }
-}
+  },
+};
 </script>

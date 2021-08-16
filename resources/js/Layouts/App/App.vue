@@ -44,20 +44,14 @@ export default {
       overlayMenuActive: false,
       mobileMenuActive: false,
       menu: [
-        { label: "Dashboard", icon: "pi pi-fw pi-home", to: "/" },
-        {
-          label: "UI Kit",
-          icon: "pi pi-fw pi-sitemap",
-          items: [
-            {
-              label: "Form Layout",
-              icon: "pi pi-fw pi-id-card",
-              to: "/formlayout",
-            },
-            { label: "Input", icon: "pi pi-fw pi-check-square", to: "/input" },
-          ],
-        },
-        {
+        { label: "Dashboard", icon: "pi pi-fw pi-home", to: "/dashboard" },
+        { label: "Projects", icon: "pi pi-fw pi-th-large", to: "/project" },
+        { label: "Namespaces", icon: "pi pi-fw pi-th-large", to: "/namespace" },
+        { label: "Database", icon: "pi pi-fw pi-th-large", to: "/database" },
+        { label: "Providers", icon: "pi pi-fw pi-th-large", to: "/provider" },
+        { label: "Variables", icon: "pi pi-fw pi-th-large", to: "/variable" },
+
+        /* {
           label: "Utilities",
           icon: "pi pi-fw pi-globe",
           items: [
@@ -97,14 +91,7 @@ export default {
               ],
             },
           ],
-        },
-        {
-          label: "Documentation",
-          icon: "pi pi-fw pi-question",
-          command: () => {
-            window.location = "#/documentation";
-          },
-        },
+        }, */
       ],
     };
   },

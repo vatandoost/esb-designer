@@ -1,59 +1,87 @@
 <template>
-    <Head title="Confirm Password" />
+  <Head title="Log in" />
+  <ValidationErrors class="p-mb-4 w-full text-center" />
 
-    <div class="mb-4 text-sm text-gray-600">
-        This is a secure area of the application. Please confirm your password before continuing.
-    </div>
+  <div v-if="status" class="p-mb-4 font-medium text-sm text-green-600">
+    {{ status }}
+  </div>
 
-    <BreezeValidationErrors class="mb-4" />
+  <form @submit.prevent="submit">
+    <div class="flex align-items-center justify-content-center mt-5">
+      <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+        <div class="text-center mb-5">
+          <img
+            src="../../assets/logo.png"
+            alt="Image"
+            height="50"
+            class="mb-3"
+          />
+          <div class="text-900 text-3xl font-medium mb-3">Request Password</div>
+          <div class="mb-4 text-sm text-gray-600">
+            This is a secure area of the application. Please confirm your
+            password before continuing.
+          </div>
+        </div>
 
-    <form @submit.prevent="submit">
         <div>
-            <BreezeLabel for="password" value="Password" />
-            <BreezeInput id="password" type="password" class="mt-1 block w-full" v-model="form.password" required autocomplete="current-password" autofocus />
-        </div>
+          <label for="password1" class="block text-900 font-medium mb-2"
+            >Password</label
+          >
+          <InputText
+            id="password"
+            type="password"
+            v-model="form.password"
+            required
+            autocomplete="current-password"
+            class="w-full mb-3"
+          />
 
-        <div class="flex justify-end mt-4">
-            <BreezeButton class="ml-4" :class="{ 'opacity-25': form.processing }" :disabled="form.processing">
-                Confirm
-            </BreezeButton>
+          <Button
+            label="Confirm"
+            class="w-full"
+            :class="{ 'opacity-25': form.processing }"
+            :disabled="form.processing"
+            type="submit"
+          ></Button>
         </div>
-    </form>
+      </div>
+    </div>
+  </form>
 </template>
 
 <script>
-import BreezeButton from '@/Components/Button.vue'
-import BreezeGuestLayout from '@/Layouts/Guest.vue'
-import BreezeInput from '@/Components/Input.vue'
-import BreezeLabel from '@/Components/Label.vue'
-import BreezeValidationErrors from '@/Components/ValidationErrors.vue'
-import { Head } from '@inertiajs/inertia-vue3';
+import GuestLayout from "@/Layouts/Guest.vue";
+import ValidationErrors from "@/Components/ValidationErrors.vue";
+import { Head, Link } from "@inertiajs/inertia-vue3";
 
 export default {
-    layout: BreezeGuestLayout,
+  layout: GuestLayout,
 
-    components: {
-        BreezeButton,
-        BreezeInput,
-        BreezeLabel,
-        BreezeValidationErrors,
-        Head,
+  components: {
+    ValidationErrors,
+    Head,
+    Link,
+  },
+
+  props: {
+    canResetPassword: Boolean,
+    status: String,
+  },
+
+  data() {
+    return {
+      form: this.$inertia.form({
+        password: "",
+      }),
+    };
+  },
+
+  methods: {
+    submit() {
+      this.form.post(this.route("password.confirm"), {
+        onFinish: () => this.form.reset(),
+      });
     },
-
-    data() {
-        return {
-            form: this.$inertia.form({
-                password: '',
-            })
-        }
-    },
-
-    methods: {
-        submit() {
-            this.form.post(this.route('password.confirm'), {
-                onFinish: () => this.form.reset(),
-            })
-        }
-    }
-}
+  },
+};
 </script>

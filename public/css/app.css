@@ -1,1 +1,4 @@
-.p-toast.p-toast-topright{top:70px;z-index:1000}
+.p-toast.p-toast-topright {
+  z-index: 1000;
+  top: 70px;
+}
