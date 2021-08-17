@@ -8,6 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Ns extends Model
 {
     use HasFactory;
+    
+    /**
+     * The "type" of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
+    protected $table = "namespaces";
 
     public function vaiables()
     {

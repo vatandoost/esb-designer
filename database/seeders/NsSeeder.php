@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Ns;
 use Illuminate\Database\Seeder;
 
 class NsSeeder extends Seeder
@@ -13,6 +14,6 @@ class NsSeeder extends Seeder
      */
     public function run()
     {
-        //
+        Ns::factory(2)->create();
     }
 }

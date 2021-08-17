@@ -20,6 +20,19 @@
     </transition>
 
     <div class="layout-main">
+      <Breadcrumb
+        :home="{ icon: 'pi pi-home', to: '/dashboard' }"
+        :model="breadcrumbs"
+        class="mb-5"
+      >
+        <template #item="{ item }">
+          <Link :href="item.to" v-if="item.icon">
+            <i :class="'pi ' + item.icon"></i>
+            {{ item.label }}
+          </Link>
+          <Link :href="item.to" v-else>{{ item.label }}</Link>
+        </template>
+      </Breadcrumb>
       <slot />
     </div>
 
@@ -36,6 +49,12 @@ import { Link } from "@inertiajs/inertia-vue3";
 import logoImg from "../../assets/logo.png";
 
 export default {
+  props: {
+    breadcrumbs: {
+      type: Array,
+      default: [],
+    },
+  },
   data() {
     return {
       layoutMode: "static",

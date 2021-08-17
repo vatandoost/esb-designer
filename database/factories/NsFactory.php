@@ -22,7 +22,9 @@ class NsFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->text(50),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }
