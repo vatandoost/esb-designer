@@ -46,7 +46,7 @@ import AppProfile from "@/Layouts/App/AppProfile.vue";
 import AppMenu from "@/Layouts/App/AppMenu.vue";
 import AppFooter from "@/Layouts/App/AppFooter.vue";
 import { Link } from "@inertiajs/inertia-vue3";
-import logoImg from "../../assets/logo.png";
+import logoImg from "../../assets/esb.jpg";
 
 export default {
   props: {

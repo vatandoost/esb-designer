@@ -4,7 +4,7 @@
       <span class="pi pi-bars"></span>
     </button>
     <div class="layout-topbar-icons">
-      <Link :href="route('logout')"  method="post">
+      <Link :href="route('logout')" method="post">
         <button class="p-link">
           <span class="layout-topbar-item-text">User</span>
           <span class="layout-topbar-icon pi pi-power-off"></span>
@@ -15,11 +15,10 @@
 </template>
 
 <script>
-import InputText from "primevue/inputtext";
 import { Link } from "@inertiajs/inertia-vue3";
 
 export default {
-  components: { InputText, Link },
+  components: { Link },
   methods: {
     onMenuToggle(event) {
       this.$emit("menu-toggle", event);
