@@ -14,10 +14,11 @@ class CreateNsDbTable extends Migration
      */
     public function up()
     {
-        Schema::create('ns_db', function (Blueprint $table) {
-            $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
-            $table->foreignUuid('db_id');
-            $table->foreignUuid('ns_id');
+        Schema::create('database_namespace', function (Blueprint $table) {
+            //$table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
+            $table->foreignUuid('database_id')->references('id')->on('databases');
+            $table->foreignUuid('namespace_id')->references('id')->on('namespaces');
+            $table->primary(['database_id', 'namespace_id']);
             $table->string('comment')->nullable();
             $table->timestamps();
         });
@@ -30,6 +31,6 @@ class CreateNsDbTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ns_db');
+        Schema::dropIfExists('database_namespace');
     }
 }

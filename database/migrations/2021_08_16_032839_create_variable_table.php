@@ -14,7 +14,7 @@ class CreateVariableTable extends Migration
      */
     public function up()
     {
-        Schema::create('variable', function (Blueprint $table) {
+        Schema::create('variables', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
             $table->string('name');
             $table->text('value')->nullable();
@@ -32,6 +32,6 @@ class CreateVariableTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('variable');
+        Schema::dropIfExists('variables');
     }
 }

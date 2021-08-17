@@ -14,10 +14,11 @@ class CreateDbFunctionTable extends Migration
      */
     public function up()
     {
-        Schema::create('db_function', function (Blueprint $table) {
+        Schema::create('db_functions', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
-            $table->foreignUuid('db_entity_id');
+            $table->foreignUuid('database_id')->references('id')->on('databases');
             $table->string('name');
+            $table->string('full_name');
             $table->text('structure');
             $table->timestamps();
         });
@@ -30,6 +31,6 @@ class CreateDbFunctionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('db_function');
+        Schema::dropIfExists('db_functions');
     }
 }

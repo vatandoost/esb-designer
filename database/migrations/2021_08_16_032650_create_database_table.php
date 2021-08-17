@@ -14,13 +14,13 @@ class CreateDatabaseTable extends Migration
      */
     public function up()
     {
-        Schema::create('database', function (Blueprint $table) {
+        Schema::create('databases', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
             $table->string('name');
             $table->tinyInteger('type');
             $table->boolean('is_template')->default(false);
-            $table->foreignUuid('ns_id')->nullable();
-            $table->foreignUuid('project_id')->nullable();
+            $table->foreignUuid('namespace_id')->references('id')->on('namespaces')->nullable();
+            $table->foreignUuid('project_id')->references('id')->on('projects')->nullable();
             $table->jsonb('config');
             $table->timestamps();
         });
@@ -33,6 +33,6 @@ class CreateDatabaseTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('database');
+        Schema::dropIfExists('databases');
     }
 }

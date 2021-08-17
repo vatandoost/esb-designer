@@ -16,7 +16,7 @@ class CreateFunctionParamsTable extends Migration
     {
         Schema::create('function_params', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
-            $table->foreignUuid('function_id');
+            $table->foreignUuid('function_id')->references('id')->on('functions');
             $table->string('name');
             $table->tinyInteger('dir_type');
             $table->tinyInteger('value_type');

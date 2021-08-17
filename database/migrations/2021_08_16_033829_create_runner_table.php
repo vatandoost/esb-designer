@@ -14,16 +14,16 @@ class CreateRunnerTable extends Migration
      */
     public function up()
     {
-        Schema::create('runner', function (Blueprint $table) {
+        Schema::create('runners', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
             $table->string('name');
             $table->tinyInteger('type');
-            $table->foreignUuid('project_id');
-            $table->foreignUuid('main_function_id');
+            $table->foreignUuid('project_id')->references('id')->on('projects');
+            $table->foreignUuid('main_function_id')->references('id')->on('functions');
             $table->jsonb('main_function_config')->nullable();
-            $table->foreignUuid('before_function_id')->nullable();
+            $table->foreignUuid('before_function_id')->references('id')->on('functions')->nullable();
             $table->jsonb('before_function_config')->nullable();
-            $table->foreignUuid('after_function_id')->nullable();
+            $table->foreignUuid('after_function_id')->references('id')->on('functions')->nullable();
             $table->jsonb('after_function_config')->nullable();
             $table->timestamps();
         });
@@ -36,6 +36,6 @@ class CreateRunnerTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('runner');
+        Schema::dropIfExists('runners');
     }
 }

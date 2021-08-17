@@ -14,10 +14,10 @@ class CreateDbEntityTable extends Migration
      */
     public function up()
     {
-        Schema::create('db_entity', function (Blueprint $table) {
+        Schema::create('db_entities', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
             $table->string('name');
-            $table->foreignUuid('db_id');
+            $table->foreignUuid('database_id')->references('id')->on('databases');
             $table->jsonb('indexes')->nullable();
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ class CreateDbEntityTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('db_entity');
+        Schema::dropIfExists('db_entities');
     }
 }

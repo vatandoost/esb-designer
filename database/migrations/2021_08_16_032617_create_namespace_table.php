@@ -14,8 +14,9 @@ class CreateNamespaceTable extends Migration
      */
     public function up()
     {
-        Schema::create('namespace', function (Blueprint $table) {
+        Schema::create('namespaces', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
+            //$table->foreignId('owner_id')->references('id')->on('users');
             $table->string('name');
             $table->jsonb('ns_requirements')->nullable();
             $table->jsonb('provider_requirements')->nullable();
@@ -30,6 +31,6 @@ class CreateNamespaceTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('namespace');
+        Schema::dropIfExists('namespaces');
     }
 }

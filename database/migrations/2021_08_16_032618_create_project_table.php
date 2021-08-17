@@ -14,10 +14,10 @@ class CreateProjectTable extends Migration
      */
     public function up()
     {
-        Schema::create('project', function (Blueprint $table) {
+        Schema::create('projects', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
-            $table->foreignUuid('main_ns_id');
-            $table->foreignId('owner_id');
+            $table->foreignUuid('namespace_id')->references('id')->on('namespaces');
+            $table->foreignId('owner_id')->references('id')->on('users');
             $table->string('name');
             $table->timestamps();
         });
@@ -30,6 +30,6 @@ class CreateProjectTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('project');
+        Schema::dropIfExists('projects');
     }
 }

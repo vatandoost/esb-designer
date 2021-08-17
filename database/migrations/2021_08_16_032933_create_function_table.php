@@ -14,9 +14,9 @@ class CreateFunctionTable extends Migration
      */
     public function up()
     {
-        Schema::create('function', function (Blueprint $table) {
+        Schema::create('functions', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
-            $table->foreignUuid('ns_id');
+            $table->foreignUuid('namespace_id')->references('id')->on('namespaces');
             $table->string('name');
             $table->tinyInteger('is_public')->default(false);
             $table->tinyInteger('type'); // Api, DB , ...
@@ -32,6 +32,6 @@ class CreateFunctionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('function');
+        Schema::dropIfExists('functions');
     }
 }

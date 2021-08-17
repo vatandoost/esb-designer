@@ -14,9 +14,9 @@ class CreateDbColumnTable extends Migration
      */
     public function up()
     {
-        Schema::create('db_column', function (Blueprint $table) {
+        Schema::create('db_columns', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
-            $table->foreignUuid('db_entity_id');
+            $table->foreignUuid('db_entity_id')->references('id')->on('db_entities');
             $table->string('name');
             $table->tinyInteger('type');
             $table->string('default')->nullable();
@@ -31,6 +31,6 @@ class CreateDbColumnTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('db_column');
+        Schema::dropIfExists('db_columns');
     }
 }

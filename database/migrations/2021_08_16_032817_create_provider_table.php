@@ -14,11 +14,11 @@ class CreateProviderTable extends Migration
      */
     public function up()
     {
-        Schema::create('provider', function (Blueprint $table) {
+        Schema::create('providers', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
             $table->string('name');
             $table->tinyInteger('type');
-            $table->foreignUuid('project_id');
+            $table->foreignUuid('project_id')->references('id')->on('projects');
             $table->jsonb('config')->nullable();
             $table->timestamps();
         });
@@ -31,6 +31,6 @@ class CreateProviderTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('provider');
+        Schema::dropIfExists('providers');
     }
 }
