@@ -2,8 +2,7 @@
   <Head title="Dashboard" />
 
   <App>
-    Hello {{ $page.props.auth.user.name.toUpperCase() }}, Welcome
-    <Button label="Hello" class="p-m-10" />
+    {{ __("messages.welcome") }}
   </App>
 </template>
 
@@ -19,5 +18,6 @@ export default {
     Head,
     Button,
   },
+  setup(props) {},
 };
 </script>

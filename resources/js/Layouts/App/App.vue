@@ -63,12 +63,36 @@ export default {
       overlayMenuActive: false,
       mobileMenuActive: false,
       menu: [
-        { label: "Dashboard", icon: "pi pi-fw pi-home", to: "/dashboard" },
-        { label: "Projects", icon: "pi pi-fw pi-th-large", to: "/project" },
-        { label: "Namespaces", icon: "pi pi-fw pi-th-large", to: "/namespace" },
-        { label: "Database", icon: "pi pi-fw pi-th-large", to: "/database" },
-        { label: "Providers", icon: "pi pi-fw pi-th-large", to: "/provider" },
-        { label: "Variables", icon: "pi pi-fw pi-th-large", to: "/variable" },
+        {
+          label: this.__("messages.dashboard"),
+          icon: "pi pi-fw pi-home",
+          to: "/dashboard",
+        },
+        {
+          label: this.__("messages.projects"),
+          icon: "pi pi-fw pi-th-large",
+          to: "/project",
+        },
+        {
+          label: this.__("messages.namespaces"),
+          icon: "pi pi-fw pi-th-large",
+          to: "/namespace",
+        },
+        {
+          label: this.__("messages.databases"),
+          icon: "pi pi-fw pi-th-large",
+          to: "/database",
+        },
+        {
+          label: this.__("messages.providers"),
+          icon: "pi pi-fw pi-th-large",
+          to: "/provider",
+        },
+        {
+          label: this.__("messages.variables"),
+          icon: "pi pi-fw pi-th-large",
+          to: "/variable",
+        },
 
         /* {
           label: "Utilities",

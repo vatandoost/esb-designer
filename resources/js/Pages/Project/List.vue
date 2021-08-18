@@ -1,10 +1,10 @@
 <template>
   <Head title="Project List" />
 
-  <App :breadcrumbs="[{ label: 'Projects', to: '/project' }]">
+  <App :breadcrumbs="[{ label: __('messages.projects'), to: '/project' }]">
     <DataTable :value="projects" stripedRows responsiveLayout="scroll">
-            <Column field="name" header="Name"></Column>
-            <Column field="owner_id" header="Owner"></Column>
+            <Column field="name" :header="__('messages.name')"></Column>
+            <Column field="owner_id" :header="__('messages.owner')"></Column>
         </DataTable>
   </App>
 </template>

@@ -53,6 +53,34 @@ services:
         ]
       retries: 3
       timeout: 5s
+  pgsql-test:
+    image: "postgres:13"
+    container_name: esb-db-test
+    restart: always
+    ports:
+      - "${FORWARD_TEST_DB_PORT:-5433}:5432"
+    environment:
+      PGPASSWORD: "${DB_PASSWORD:-secret}"
+      POSTGRES_DB: "${DB_DATABASE}"
+      POSTGRES_USER: "${DB_USERNAME}"
+      POSTGRES_PASSWORD: "${DB_PASSWORD:-secret}"
+    volumes:
+      - "sailpgsqltest:/var/lib/postgresql/data"
+    networks:
+      - sail
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "-q",
+          "-d",
+          "${DB_DATABASE}",
+          "-U",
+          "${DB_USERNAME}",
+        ]
+      retries: 3
+      timeout: 5s
   redis:
     image: "redis:alpine"
     container_name: esb-redis
@@ -87,6 +115,8 @@ networks:
   sail:
     driver: bridge
 volumes:
+  sailpgsqltest:
+    driver: local
   sailpgsql:
     driver: local
   sailredis:

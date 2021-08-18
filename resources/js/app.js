@@ -105,14 +105,12 @@ import TreeTable from 'primevue/treetable';
 import TriStateCheckbox from 'primevue/tristatecheckbox';
 
 import {
-    createI18n
-} from 'vue-i18n'
-
-const i18n = createI18n({
-    // something vue-i18n options here ...
-})
-
-const appName = window.document.getElementsByTagName('title')[0] ?.innerText || 'ESB';
+    Lang
+} from 'laravel-vue-lang';
+let appName = "ESB";
+if (window.document.getElementsByTagName('title')[0]) {
+    appName = window.document.getElementsByTagName('title')[0].innerText;
+}
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
@@ -122,12 +120,15 @@ createInertiaApp({
         app,
         props,
         plugin
-    }) {
+    }) { //console.log(Lang);
         return createApp({
                 render: () => h(app, props)
             })
             .use(plugin)
-            .use(i18n)
+            .use(Lang, {
+                locale: process.env.APP_LOCALE,
+                fallback: 'en',
+            })
             .use(PrimeVue)
             .directive('tooltip', Tooltip)
             .directive('ripple', Ripple)
