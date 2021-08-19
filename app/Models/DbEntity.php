@@ -9,6 +9,13 @@ class DbEntity extends Model
 {
     use HasFactory;
 
+    /**
+     * The "type" of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
     public function columns()
     {
         return $this->hasMany(DbColumn::class, 'db_entity_id', 'id');

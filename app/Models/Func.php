@@ -9,6 +9,13 @@ class Func extends Model
 {
     use HasFactory;
 
+    /**
+     * The "type" of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
     public function ns()
     {
         return $this->belongsTo(Ns::class, 'namespace_id', 'id');

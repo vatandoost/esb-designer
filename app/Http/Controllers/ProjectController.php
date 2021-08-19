@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class ProjectController extends Controller
@@ -19,6 +20,13 @@ class ProjectController extends Controller
         return Inertia::render('Project/List', [
             'projects' => $projects
         ]);
+    }
+
+    public function activate($id)
+    {
+        $project = Project::find($id);
+        Session::put('active_project', $project);
+        return $project;
     }
 
     /**

@@ -9,6 +9,13 @@ class DbFunc extends Model
 {
     use HasFactory;
 
+    /**
+     * The "type" of the auto-incrementing ID.
+     *
+     * @var string
+     */
+    protected $keyType = 'string';
+
     public function database()
     {
         return $this->belongsTo(Db::class, 'database_id', 'id');

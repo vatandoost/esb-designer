@@ -4,6 +4,16 @@
       <span class="pi pi-bars"></span>
     </button>
     <div class="layout-topbar-icons">
+      <Link
+        :href="route('project.index')"
+        v-if="this.$page.props.activeProject != null"
+      >
+        <Button
+          :label="this.$page.props.activeProject.name"
+          class="p-button-primary"
+          style="color: #fff"
+        />
+      </Link>
       <Link :href="route('logout')" method="post">
         <button class="p-link">
           <span class="layout-topbar-item-text">User</span>

@@ -8,5 +8,8 @@ return [
     'providers' => 'Providers',
     'variables' => 'Variables',
     'name' => 'Name',
-    'owner' => 'Owner'
+    'owner' => 'Owner',
+    'edit' => 'Edit',
+    'active' => 'Active',
+    'activate' => 'Activate',
 ];
