@@ -130,6 +130,7 @@ createInertiaApp({
                 fallback: 'en',
             })
             .use(PrimeVue)
+            .use(ToastService)
             .directive('tooltip', Tooltip)
             .directive('ripple', Ripple)
             // .directive('code', CodeHighlight)

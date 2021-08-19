@@ -23,7 +23,7 @@
             icon="pi pi-check"
             class="mr-2 p-button-success"
           />
-          <Link :href="'/project/update/' + slotProps.data.id">
+          <Link :href="'/project/' + slotProps.data.id">
             <Button :label="__('messages.edit')" icon="pi pi-pencil" />
           </Link>
         </template>

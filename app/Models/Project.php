@@ -16,6 +16,8 @@ class Project extends Model
      */
     protected $keyType = 'string';
 
+    protected $fillable = ['name'];
+
     public function vaiables()
     {
         return $this->morphMany(Variable::class, 'object');

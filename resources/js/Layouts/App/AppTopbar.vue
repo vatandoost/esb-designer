@@ -16,7 +16,6 @@
       </Link>
       <Link :href="route('logout')" method="post">
         <button class="p-link">
-          <span class="layout-topbar-item-text">User</span>
           <span class="layout-topbar-icon pi pi-power-off"></span>
         </button>
       </Link>

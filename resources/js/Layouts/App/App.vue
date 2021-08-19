@@ -1,4 +1,5 @@
 <template>
+  <Toast />
   <div :class="containerClass" @click="onWrapperClick">
     <AppTopBar @menu-toggle="onMenuToggle" />
 
@@ -93,50 +94,18 @@ export default {
           icon: "pi pi-fw pi-th-large",
           to: "/variable",
         },
-
-        /* {
-          label: "Utilities",
-          icon: "pi pi-fw pi-globe",
-          items: [
-            { label: "Display", icon: "pi pi-fw pi-desktop", to: "/display" },
-            {
-              label: "Elevation",
-              icon: "pi pi-fw pi-external-link",
-              to: "/elevation",
-            },
-          ],
-        },
-        {
-          label: "Menu Hierarchy",
-          icon: "pi pi-fw pi-search",
-          items: [
-            {
-              label: "Submenu 1",
-              icon: "pi pi-fw pi-bookmark",
-              items: [
-                {
-                  label: "Submenu 1.1",
-                  icon: "pi pi-fw pi-bookmark",
-                  items: [
-                    { label: "Submenu 1.1.1", icon: "pi pi-fw pi-bookmark" },
-                    { label: "Submenu 1.1.2", icon: "pi pi-fw pi-bookmark" },
-                    { label: "Submenu 1.1.3", icon: "pi pi-fw pi-bookmark" },
-                  ],
-                },
-                {
-                  label: "Submenu 1.2",
-                  icon: "pi pi-fw pi-bookmark",
-                  items: [
-                    { label: "Submenu 1.2.1", icon: "pi pi-fw pi-bookmark" },
-                    { label: "Submenu 1.2.2", icon: "pi pi-fw pi-bookmark" },
-                  ],
-                },
-              ],
-            },
-          ],
-        }, */
       ],
     };
+  },
+  mounted: function () {
+    if (this.$page.props.toast != null) {
+      this.$toast.add({
+        severity: this.$page.props.toast.severity,
+        summary: this.$page.props.toast.summary,
+        detail: this.$page.props.toast.detail,
+        life: 3000,
+      });
+    }
   },
   methods: {
     onWrapperClick() {

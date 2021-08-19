@@ -69,7 +69,9 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return Inertia::render('Project/Edit', [
+            'project' => $project
+        ]);
     }
 
     /**
@@ -81,7 +83,16 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
-        //
+        $project->update($request->all());
+        Session::flash(
+            'toast_message',
+            [
+                'severity' => 'success',
+                'summary' => __('messages.success'),
+                'detail' => __('messages.success_update')
+            ]
+        );
+        return redirect()->intended(route('project.index'));
     }
 
     /**

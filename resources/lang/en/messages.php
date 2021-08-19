@@ -10,6 +10,10 @@ return [
     'name' => 'Name',
     'owner' => 'Owner',
     'edit' => 'Edit',
+    'update' => 'Update',
+    'save' => 'Save',
     'active' => 'Active',
     'activate' => 'Activate',
+    'success' => 'Success',
+    'success_update' => 'Successfully updated',
 ];
