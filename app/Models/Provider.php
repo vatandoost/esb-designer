@@ -11,6 +11,6 @@ class Provider extends Model
 
     public function project()
     {
-        $this->belongsTo(Project::class, 'project_id', 'id');
+        return $this->belongsTo(Project::class, 'project_id', 'id');
     }
 }

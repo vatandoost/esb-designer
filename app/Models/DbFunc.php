@@ -11,6 +11,6 @@ class DbFunc extends Model
 
     public function database()
     {
-        $this->belongsTo(Db::class, 'database_id', 'id');
+        return $this->belongsTo(Db::class, 'database_id', 'id');
     }
 }

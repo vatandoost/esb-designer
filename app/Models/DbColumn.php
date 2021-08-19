@@ -11,6 +11,6 @@ class DbColumn extends Model
 
     public function entity()
     {
-        $this->belongsTo(DbEntity::class, 'db_entity_id', 'id');
+        return $this->belongsTo(DbEntity::class, 'db_entity_id', 'id');
     }
 }

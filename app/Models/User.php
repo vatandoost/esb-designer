@@ -43,7 +43,7 @@ class User extends Authenticatable
 
     public function projects()
     {
-        $this->hasMany(Project::class, 'owner_id', 'id');
+        return $this->hasMany(Project::class, 'owner_id', 'id');
     }
 
     /* public function namespaces()

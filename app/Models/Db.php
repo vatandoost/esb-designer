@@ -11,11 +11,11 @@ class Db extends Model
 
     public function entities()
     {
-        $this->hasMany(DbEntity::class, 'database_id', 'id');
+        return $this->hasMany(DbEntity::class, 'database_id', 'id');
     }
 
     public function functions()
     {
-        $this->hasMany(DbFunc::class, 'database_id', 'id');
+        return $this->hasMany(DbFunc::class, 'database_id', 'id');
     }
 }
