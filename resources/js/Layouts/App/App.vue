@@ -57,45 +57,15 @@ export default {
     },
   },
   data() {
-    return {
+    const data = {
       layoutMode: "static",
       layoutColorMode: "light",
       staticMenuInactive: false,
       overlayMenuActive: false,
       mobileMenuActive: false,
-      menu: [
-        {
-          label: this.__("messages.dashboard"),
-          icon: "pi pi-fw pi-home",
-          to: "/dashboard",
-        },
-        {
-          label: this.__("messages.projects"),
-          icon: "pi pi-fw pi-th-large",
-          to: "/project",
-        },
-        {
-          label: this.__("messages.namespaces"),
-          icon: "pi pi-fw pi-th-large",
-          to: "/namespace",
-        },
-        {
-          label: this.__("messages.databases"),
-          icon: "pi pi-fw pi-th-large",
-          to: "/database",
-        },
-        {
-          label: this.__("messages.providers"),
-          icon: "pi pi-fw pi-th-large",
-          to: "/provider",
-        },
-        {
-          label: this.__("messages.variables"),
-          icon: "pi pi-fw pi-th-large",
-          to: "/variable",
-        },
-      ],
     };
+
+    return data;
   },
   mounted: function () {
     if (this.$page.props.toast != null) {
@@ -207,6 +177,51 @@ export default {
     },
     logo() {
       return logoImg;
+    },
+    menu() {
+      const mainMenu = [
+        {
+          label: this.__("messages.dashboard"),
+          icon: ["fas", "tachometer-alt"],
+          to: "/dashboard",
+        },
+        {
+          label: this.__("messages.projects"),
+          to: "/project",
+          icon: ["fas", "cube"],
+        },
+      ];
+      const activeMenu = [
+        {
+          label: this.__("messages.namespaces"),
+          to: "/namespace",
+          icon: ["fas", "folder-open"],
+        },
+        {
+          label: this.__("messages.databases"),
+          to: "/database",
+          icon: ["fas", "database"],
+        },
+        {
+          label: this.__("messages.providers"),
+          to: "/provider",
+          icon: ["fas", "cubes"],
+        },
+        {
+          label: this.__("messages.functions"),
+          to: "/functions",
+          icon: ["fas", "project-diagram"],
+        },
+        {
+          label: this.__("messages.variables"),
+          to: "/variable",
+          icon: ["fas", "wrench"],
+        },
+      ];
+      if (this.$page.props.activeProject != null) {
+        return mainMenu.concat(activeMenu);
+      }
+      return mainMenu;
     },
   },
   beforeUpdate() {

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Ns;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Inertia\Inertia;
 
 class NsController extends Controller
 {
@@ -14,7 +16,12 @@ class NsController extends Controller
      */
     public function index()
     {
-        //
+        $activeProject = Session::get('active_project');
+        $items = Ns::where('project_id', '=', $activeProject->id)->get();
+
+        return Inertia::render('Namespace/List', [
+            'items' => $items
+        ]);
     }
 
     /**
@@ -24,7 +31,7 @@ class NsController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Namespace/Create');
     }
 
     /**
@@ -35,7 +42,21 @@ class NsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $ns = new Ns();
+        $ns->name = $request->name;
+        $activeProject = Session::get('active_project');
+        $ns->project()->associate($activeProject);
+        $ns->save();
+
+        Session::flash(
+            'toast_message',
+            [
+                'severity' => 'success',
+                'summary' => __('messages.success'),
+                'detail' => __('messages.success_create')
+            ]
+        );
+        return redirect()->intended(route('namespace.index'));
     }
 
     /**
@@ -57,7 +78,10 @@ class NsController extends Controller
      */
     public function edit(Ns $ns)
     {
-        //
+
+        return Inertia::render('Namespace/Edit', [
+            'item' => $ns
+        ]);
     }
 
     /**
@@ -69,7 +93,16 @@ class NsController extends Controller
      */
     public function update(Request $request, Ns $ns)
     {
-        //
+        $ns->update($request->all());
+        Session::flash(
+            'toast_message',
+            [
+                'severity' => 'success',
+                'summary' => __('messages.success'),
+                'detail' => __('messages.success_update')
+            ]
+        );
+        return redirect()->intended(route('namespace.index'));
     }
 
     /**

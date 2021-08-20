@@ -25,8 +25,12 @@
           :target="item.target"
           exact
           role="menuitem"
-        >
-          <i :class="item.icon"></i>
+          >
+          
+          <font-awesome-icon
+            :icon="item.icon ? item.icon : ['far', 'circle']"
+          />
+
           <span>{{ item.label }}</span>
           <i
             v-if="item.items"
@@ -42,8 +46,10 @@
           @click="onMenuItemClick($event, item, i)"
           :target="item.target"
           role="menuitem"
-        >
-          <i :class="item.icon"></i>
+          >
+          <font-awesome-icon
+            :icon="item.icon ? item.icon : ['far', 'circle']"
+          />
           <span>{{ item.label }}</span>
           <i
             v-if="item.items"

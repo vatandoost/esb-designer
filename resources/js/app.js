@@ -112,6 +112,32 @@ if (window.document.getElementsByTagName('title')[0]) {
     appName = window.document.getElementsByTagName('title')[0].innerText;
 }
 
+//fontawesome
+
+import {
+    library
+} from "@fortawesome/fontawesome-svg-core";
+import {
+    FontAwesomeIcon
+} from "@fortawesome/vue-fontawesome";
+import {
+    fas
+} from '@fortawesome/free-solid-svg-icons'
+library.add(fas);
+import {
+    fab
+} from '@fortawesome/free-brands-svg-icons';
+library.add(fab);
+import {
+    far
+} from '@fortawesome/free-regular-svg-icons';
+library.add(far);
+import {
+    dom
+} from "@fortawesome/fontawesome-svg-core";
+dom.watch();
+
+
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => require(`./Pages/${name}.vue`),
@@ -135,6 +161,7 @@ createInertiaApp({
             .directive('ripple', Ripple)
             // .directive('code', CodeHighlight)
             .directive('badge', BadgeDirective)
+            .component("font-awesome-icon", FontAwesomeIcon)
             .component('Accordion', Accordion)
             .component('AccordionTab', AccordionTab)
             .component('AutoComplete', AutoComplete)

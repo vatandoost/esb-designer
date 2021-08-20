@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Ns;
 use App\Models\Project;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
@@ -16,7 +19,7 @@ class ProjectController extends Controller
      */
     public function index()
     {
-        $projects = Project::all();
+        $projects = Project::where('owner_id', '=', Auth::id())->get();
         return Inertia::render('Project/List', [
             'projects' => $projects
         ]);
@@ -36,7 +39,7 @@ class ProjectController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('Project/Create');
     }
 
     /**
@@ -47,7 +50,29 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        DB::transaction(function () use ($request) {
+            $project = new Project();
+            $project->owner_id = Auth::user()->id;
+            $project->name = $request->name;
+            $project->save();
+
+            $ns = new Ns();
+            $ns->name = 'Main';
+            $ns->project()->associate($project);
+            $ns->save();
+
+            $project->main_namespace_id = $ns->id;
+            $project->save();
+        });
+        Session::flash(
+            'toast_message',
+            [
+                'severity' => 'success',
+                'summary' => __('messages.success'),
+                'detail' => __('messages.success_create')
+            ]
+        );
+        return redirect()->intended(route('project.index'));
     }
 
     /**

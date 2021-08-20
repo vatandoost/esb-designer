@@ -34,7 +34,6 @@ import App from "@/Layouts/App/App.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { reactive } from "vue";
-import { useToast } from "primevue/usetoast";
 
 export default {
   components: {
@@ -49,8 +48,6 @@ export default {
     const form = reactive({
       name: props.project.name,
     });
-
-    const toast = useToast();
 
     function submit() {
       Inertia.post("/project/" + props.project.id, form);

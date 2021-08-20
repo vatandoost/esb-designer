@@ -2,6 +2,10 @@
   <Head title="Project List" />
 
   <App :breadcrumbs="[{ label: __('messages.projects'), to: '/project' }]">
+
+    <Link href="/project/create">
+      <Button :label="__('messages.create')" icon="pi pi-plus" />
+    </Link>
     <DataTable :value="projects" stripedRows responsiveLayout="scroll">
       <Column field="name" :header="__('messages.name')" :sortable="true">
         <template #body="slotProps">

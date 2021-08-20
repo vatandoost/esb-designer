@@ -3,6 +3,7 @@
 
   <App>
     {{ __("messages.welcome") }}
+    <font-awesome-icon icon="user-secret" />
   </App>
 </template>
 
