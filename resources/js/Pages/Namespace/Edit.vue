@@ -1,5 +1,5 @@
 <template>
-  <Head title="Namespace update" />
+  <Head :title="__('messages.namespaces') + ' > ' + __('messages.update')" />
 
   <App
     :breadcrumbs="[
@@ -15,14 +15,12 @@
             <InputText id="name" type="text" v-model="form.name" />
           </div>
         </div>
-        <div class="p-fluid formgrid grid">
-          <div class="field col-6">
-            <Button
-              type="submit"
-              :label="__('messages.save')"
-              class="p-button-success"
-            />
-          </div>
+        <div>
+          <Button
+            type="submit"
+            :label="__('messages.save')"
+            class="p-button-success"
+          />
         </div>
       </form>
     </div>

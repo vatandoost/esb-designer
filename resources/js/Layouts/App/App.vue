@@ -1,4 +1,5 @@
 <template>
+  <ConfirmDialog></ConfirmDialog>
   <Toast />
   <div :class="containerClass" @click="onWrapperClick">
     <AppTopBar @menu-toggle="onMenuToggle" />

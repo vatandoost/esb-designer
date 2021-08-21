@@ -1,9 +1,13 @@
 <template>
-  <Head title="Namespace List" />
+  <Head :title="__('messages.namespaces')" />
 
   <App :breadcrumbs="[{ label: __('messages.namespaces'), to: '/namespace' }]">
     <Link href="/namespace/create">
-      <Button :label="__('messages.create')" icon="pi pi-plus" />
+      <Button
+        :label="__('messages.create_new')"
+        class="mb-2"
+        icon="pi pi-plus"
+      />
     </Link>
     <DataTable :value="items" stripedRows responsiveLayout="scroll">
       <Column

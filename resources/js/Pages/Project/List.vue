@@ -1,10 +1,13 @@
 <template>
-  <Head title="Project List" />
+  <Head :title="__('messages.projects')" />
 
   <App :breadcrumbs="[{ label: __('messages.projects'), to: '/project' }]">
-
     <Link href="/project/create">
-      <Button :label="__('messages.create')" icon="pi pi-plus" />
+      <Button
+        :label="__('messages.create_new')"
+        class="mb-2"
+        icon="pi pi-plus"
+      />
     </Link>
     <DataTable :value="projects" stripedRows responsiveLayout="scroll">
       <Column field="name" :header="__('messages.name')" :sortable="true">

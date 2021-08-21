@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Db;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Inertia\Inertia;
 
 class DbController extends Controller
 {
@@ -14,7 +16,13 @@ class DbController extends Controller
      */
     public function index()
     {
-        //
+        $activeProject = Session::get('active_project');
+        $items = Db::where('project_id', '=', $activeProject->id)->get();
+
+        return Inertia::render('Database/List', [
+            'items' => $items,
+            'types' => Db::types()
+        ]);
     }
 
     /**
@@ -24,7 +32,11 @@ class DbController extends Controller
      */
     public function create()
     {
-        //
+        $types = [];
+        foreach (Db::types() as $type => $label) {
+            $types[] = ['type' => $type, 'label' => $label];
+        }
+        return Inertia::render('Database/Create', ['types' => $types]);
     }
 
     /**
@@ -35,7 +47,28 @@ class DbController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $model = new Db();
+        $model->name = $request->name;
+        $model->type = $request->type;
+        $model->db = $request->db;
+        $model->port = $request->port;
+        $model->schema = $request->schema;
+        $model->host = $request->host;
+        $model->username = $request->username;
+        $model->password = $request->password;
+        $activeProject = Session::get('active_project');
+        $model->project()->associate($activeProject);
+        $model->save();
+
+        Session::flash(
+            'toast_message',
+            [
+                'severity' => 'success',
+                'summary' => __('messages.success'),
+                'detail' => __('messages.success_create')
+            ]
+        );
+        return redirect()->intended(route('database.index'));
     }
 
     /**
@@ -46,7 +79,9 @@ class DbController extends Controller
      */
     public function show(Db $db)
     {
-        //
+        return Inertia::render('Database/Edit', [
+            'item' => $db
+        ]);
     }
 
     /**
@@ -57,7 +92,14 @@ class DbController extends Controller
      */
     public function edit(Db $db)
     {
-        //
+        $types = [];
+        foreach (Db::types() as $type => $label) {
+            $types[] = ['type' => $type, 'label' => $label];
+        }
+        return Inertia::render('Database/Edit', [
+            'item' => $db,
+            'types' => $types
+        ]);
     }
 
     /**
@@ -69,7 +111,16 @@ class DbController extends Controller
      */
     public function update(Request $request, Db $db)
     {
-        //
+        $db->update($request->all());
+        Session::flash(
+            'toast_message',
+            [
+                'severity' => 'success',
+                'summary' => __('messages.success'),
+                'detail' => __('messages.success_update')
+            ]
+        );
+        return redirect()->intended(route('database.index'));
     }
 
     /**
@@ -80,6 +131,15 @@ class DbController extends Controller
      */
     public function destroy(Db $db)
     {
-        //
+        $db->delete();
+        Session::flash(
+            'toast_message',
+            [
+                'severity' => 'success',
+                'summary' => __('messages.success'),
+                'detail' => __('messages.success_delete')
+            ]
+        );
+        return redirect()->intended(route('database.index'));
     }
 }

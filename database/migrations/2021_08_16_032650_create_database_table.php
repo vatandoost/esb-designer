@@ -17,11 +17,19 @@ class CreateDatabaseTable extends Migration
         Schema::create('databases', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
             $table->string('name');
+            $table->string('host');
+            $table->string('port')->nullable();
+            $table->string('db');
+            $table->string('username');
+            $table->string('password');
+            $table->string('schema')->nullable();
             $table->tinyInteger('type');
             $table->boolean('is_template')->default(false);
-            $table->foreignUuid('namespace_id')->references('id')->on('namespaces')->nullable();
-            $table->foreignUuid('project_id')->references('id')->on('projects')->nullable();
-            $table->jsonb('config');
+            $table->foreignUuid('namespace_id')->nullable();
+            $table->foreignUuid('project_id')->nullable();
+            $table->foreign('namespace_id')->references('id')->on('namespaces');
+            $table->foreign('project_id')->references('id')->on('projects');
+            $table->jsonb('config')->nullable();
             $table->timestamps();
         });
     }

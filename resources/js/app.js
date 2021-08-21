@@ -157,6 +157,7 @@ createInertiaApp({
             })
             .use(PrimeVue)
             .use(ToastService)
+            .use(ConfirmationService)
             .directive('tooltip', Tooltip)
             .directive('ripple', Ripple)
             // .directive('code', CodeHighlight)

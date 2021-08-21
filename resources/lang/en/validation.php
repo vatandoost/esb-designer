@@ -152,6 +152,15 @@ return [
     |
     */
 
-    'attributes' => [],
+    'attributes' => [
+        'name' => 'name',
+        'type' => 'type',
+        'host' => 'host',
+        'port' => 'port',
+        'db' => 'db',
+        'schema' => 'schema',
+        'username' => 'username',
+        'password' => 'password',
+    ],
 
 ];

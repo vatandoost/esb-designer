@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\DbController;
 use App\Http\Controllers\NsController;
 use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
@@ -43,6 +44,27 @@ Route::middleware(['auth'])->group(function () {
 
         Route::post('/{ns}', [NsController::class, 'update'])
             ->name('namespace.update');
+
+    });
+
+    Route::prefix('database')->group(function () {
+
+        Route::get('/', [DbController::class, 'index'])
+            ->name('database.index');
+
+        Route::post('/', [DbController::class, 'store'])
+            ->name('database.store');
+
+        Route::get('/create', [DbController::class, 'create'])
+            ->name('database.create');
+
+        Route::get('/{db}', [DbController::class, 'edit'])
+            ->name('database.edit');
+
+        Route::post('/{db}', [DbController::class, 'update'])
+            ->name('database.update');
+        Route::delete('/{db}', [DbController::class, 'destroy'])
+            ->name('database.delete');
 
     });
 });
