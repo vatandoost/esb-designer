@@ -1,8 +1,10 @@
 <?php
 
 use App\Http\Controllers\DbController;
+use App\Http\Controllers\FuncController;
 use App\Http\Controllers\NsController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\UtilityController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['auth'])->group(function () {
@@ -44,7 +46,6 @@ Route::middleware(['auth'])->group(function () {
 
         Route::post('/{ns}', [NsController::class, 'update'])
             ->name('namespace.update');
-
     });
 
     Route::prefix('database')->group(function () {
@@ -65,6 +66,17 @@ Route::middleware(['auth'])->group(function () {
             ->name('database.update');
         Route::delete('/{db}', [DbController::class, 'destroy'])
             ->name('database.delete');
+    });
 
+    Route::prefix('function')->group(function () {
+
+        Route::get('/', [FuncController::class, 'index'])
+            ->name('function.index');
+    });
+
+    Route::prefix('utility')->group(function () {
+
+        Route::get('/conditions', [UtilityController::class, 'condition_builder_setting'])
+            ->name('utility.conditions');
     });
 });

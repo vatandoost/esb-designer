@@ -2,7 +2,7 @@
   <Head :title="__('messages.databases')" />
 
   <App :breadcrumbs="[{ label: __('messages.databases'), to: '/database' }]">
-    <Link href="/database/create">
+    <Link :href="route('database.create')">
       <Button
         :label="__('messages.create_new')"
         class="mb-2"

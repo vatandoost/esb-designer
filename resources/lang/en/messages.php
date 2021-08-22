@@ -23,4 +23,7 @@ return [
     'success_delete' => 'Successfully removed',
     'confirm_delete' => 'Are you sure you delete this item?',
     'create_new' => 'Create new',
+    'order' => 'order',
+    'condition' => 'condition',
+    'expression' => 'expression',
 ];
