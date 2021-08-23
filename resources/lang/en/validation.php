@@ -161,6 +161,9 @@ return [
         'schema' => 'schema',
         'username' => 'username',
         'password' => 'password',
+        'is_public' => 'Is Public',
+        'namespace' => 'namespace',
+        'namespace_id' => 'namespace'
     ],
 
 ];

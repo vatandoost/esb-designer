@@ -7,7 +7,12 @@
       { label: __('messages.create') },
     ]"
   >
-    <Form :form="form" :types="types" @submit="submit" />
+    <Form
+      :item="item"
+      :types="types"
+      :namespaces="namespaces"
+      @submit="submit"
+    />
   </App>
 </template>
 
@@ -16,6 +21,7 @@ import App from "@/Layouts/App/App.vue";
 import { Head, Link, useRemember } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import Form from "./Form.vue";
+import { reactive } from "@vue/reactivity";
 
 export default {
   components: {
@@ -26,23 +32,16 @@ export default {
   },
   props: {
     types: Array,
+    namespaces: Array,
   },
   setup(props) {
-    const form = useRemember({
-      name: "",
-      type: "",
-      host: "",
-      port: "",
-      db: "",
-      schema: "",
-      username: "",
-      password: "",
+    const item = reactive({
+      name: null,
+      type: null,
+      namespace_id: null,
+      is_public: false,
     });
-    function submit() {
-      Inertia.post(route("database.store"), form);
-    }
-
-    return { form, submit };
+    return { item };
   },
 };
 </script>

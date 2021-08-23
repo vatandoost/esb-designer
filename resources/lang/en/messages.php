@@ -34,5 +34,9 @@ return [
         'not_valid_variable' => 'Variable is not exist',
         'compound_limit_error' => 'Can not use compound expression',
         'unknown_expression' => 'Unknown expression error',
-    ]
+    ],
+    'details' => 'Details',
+    'input_parameters' => 'Input Parameters',
+    'output_parameters' => 'Output Parameters',
+    'definition' => 'Definition',
 ];

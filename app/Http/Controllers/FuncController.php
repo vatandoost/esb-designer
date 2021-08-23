@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Func;
+use App\Models\Ns;
+use App\Statics\FunctionType;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
 class FuncController extends Controller
@@ -28,7 +31,13 @@ class FuncController extends Controller
      */
     public function create()
     {
-        //
+        $types = [];
+        foreach (FunctionType::labels() as $type => $label) {
+            $types[] = ['type' => $type, 'label' => $label];
+        }
+        $activeProject = Session::get('active_project');
+        $namespaces = Ns::where('project_id', '=', $activeProject->id)->get();
+        return Inertia::render('Function/Create', ['types' => $types, 'namespaces' => $namespaces]);
     }
 
     /**

@@ -1,8 +1,12 @@
 <template>
   <Head :title="__('messages.functions')" />
 
-  <App :breadcrumbs="[{ label: __('messages.functions'), to: '/function' }]">
-    <Link href="/function/create">
+  <App
+    :breadcrumbs="[
+      { label: __('messages.functions'), to: route('function.index') },
+    ]"
+  >
+    <Link :href="route('function.create')">
       <Button
         :label="__('messages.create_new')"
         class="mb-2"
@@ -12,7 +16,17 @@
     <DataTable :value="items" stripedRows responsiveLayout="scroll">
       <Column
         field="name"
-        :header="__('messages.name')"
+        :header="__('validation.attributes.name')"
+        :sortable="true"
+      ></Column>
+      <Column
+        field="namespace"
+        :header="__('validation.attributes.namespace')"
+        :sortable="true"
+      ></Column>
+      <Column
+        field="is_public"
+        :header="__('validation.attributes.is_public')"
         :sortable="true"
       ></Column>
       <Column
@@ -27,16 +41,15 @@
       <Column field="id" header="">
         <template #body="slotProps">
           <Link
-            :href="route('function.edit', { db: slotProps.data.id })"
+            :href="route('function.edit', { func: slotProps.data.id })"
             class="mr-2"
           >
-            <Button :label="__('messages.edit')" icon="pi pi-pencil" />
+            <Button icon="pi pi-pencil" />
           </Link>
           <Button
-            :label="__('messages.delete')"
             icon="pi pi-trash"
             class="p-button-danger"
-            @click="deleteDb(slotProps.data.id)"
+            @click="deleteItem(slotProps.data.id)"
           />
         </template>
       </Column>
@@ -54,7 +67,11 @@
       v-model:visible="showModal"
       :style="{ width: '80vw' }"
     >
-      <expression-builder :items="expressions" :variables="variables" @save="showModal=false" />
+      <expression-builder
+        :items="expressions"
+        :variables="variables"
+        @save="showModal = false"
+      />
     </Dialog>
   </App>
 </template>
@@ -82,14 +99,14 @@ export default {
     const expressions = ref([]);
     const confirm = useConfirm();
 
-    function deleteDb(id) {
+    function deleteItem(id) {
       confirm.require({
         message: "Do you want to delete this record?",
         header: "Delete Confirmation",
         icon: "pi pi-info-circle",
         acceptClass: "p-button-danger",
         accept: () => {
-          Inertia.visit(route("function.delete", { db: id }), {
+          Inertia.visit(route("function.delete", { func: id }), {
             method: "DELETE",
           });
         },
@@ -98,6 +115,7 @@ export default {
         },
       });
     }
+
     const showModal = ref(false);
     const variables = [
       { name: "vstring", type: "string" },
@@ -109,7 +127,7 @@ export default {
       { name: "varray_of_object", type: "array_of_object" },
       { name: "vobject", type: "object" },
     ];
-    return { deleteDb, expressions, showModal, variables };
+    return { deleteItem, expressions, showModal, variables };
   },
 };
 </script>
