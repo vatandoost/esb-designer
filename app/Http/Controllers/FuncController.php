@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Func;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class FuncController extends Controller
 {
@@ -14,7 +15,10 @@ class FuncController extends Controller
      */
     public function index()
     {
-        //
+        $items = Func::all();
+        return Inertia::render('Function/List', [
+            'items' => $items
+        ]);
     }
 
     /**

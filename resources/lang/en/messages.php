@@ -15,6 +15,7 @@ return [
     'create' => 'Create',
     'delete' => 'Delete',
     'save' => 'Save',
+    'cancel' => 'Cancel',
     'active' => 'Active',
     'activate' => 'Activate',
     'success' => 'Success',
@@ -23,4 +24,15 @@ return [
     'success_delete' => 'Successfully removed',
     'confirm_delete' => 'Are you sure you delete this item?',
     'create_new' => 'Create new',
+    'order' => 'order',
+    'condition' => 'condition',
+    'expression' => 'expression',
+    'errors' => [
+        'syntax_error' => 'Syntax is not valid',
+        'not_valid_operator' => 'Operator is not valid',
+        'not_valid_function' => 'Function is not exist',
+        'not_valid_variable' => 'Variable is not exist',
+        'compound_limit_error' => 'Can not use compound expression',
+        'unknown_expression' => 'Unknown expression error',
+    ]
 ];

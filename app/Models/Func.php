@@ -15,6 +15,7 @@ class Func extends Model
      * @var string
      */
     protected $keyType = 'string';
+    protected $table = 'functions';
 
     public function ns()
     {

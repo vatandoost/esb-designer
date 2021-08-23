@@ -210,7 +210,7 @@ export default {
         },
         {
           label: this.__("messages.functions"),
-          to: "/functions",
+          to: "/function",
           icon: ["fas", "project-diagram"],
         },
         {
