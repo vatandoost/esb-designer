@@ -1,13 +1,20 @@
 <template>
-  <Head :title="__('messages.databases') + ' > ' + __('messages.create')" />
+  <Head :title="__('messages.functions') + ' > ' + __('messages.create')" />
 
   <App
     :breadcrumbs="[
-      { label: __('messages.databases'), to: '/database' },
+      { label: __('messages.functions'), to: route('function.index') },
       { label: __('messages.create') },
     ]"
   >
-    <Form
+    <!-- <Form
+      :item="item"
+      :types="types"
+      :fieldTypes="fieldTypes"
+      :namespaces="namespaces"
+      @submit="submit"
+    /> -->
+    <Detail
       :item="item"
       :types="types"
       :namespaces="namespaces"
@@ -20,7 +27,7 @@
 import App from "@/Layouts/App/App.vue";
 import { Head, Link, useRemember } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
-import Form from "./Form.vue";
+import Detail from "./Forms/Detail.vue";
 import { reactive } from "@vue/reactivity";
 
 export default {
@@ -28,20 +35,24 @@ export default {
     App,
     Head,
     Link,
-    Form,
+    Detail,
   },
   props: {
     types: Array,
+    fieldTypes: Array,
     namespaces: Array,
   },
   setup(props) {
-    const item = reactive({
+    const item = useRemember({
       name: null,
       type: null,
       namespace_id: null,
       is_public: false,
     });
-    return { item };
+    function submit() {
+      Inertia.post(route("function.store"), item);
+    }
+    return { item, submit };
   },
 };
 </script>

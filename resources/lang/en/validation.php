@@ -155,6 +155,8 @@ return [
     'attributes' => [
         'name' => 'name',
         'type' => 'type',
+        'dir_type' => 'direction type',
+        'direction' => 'direction',
         'host' => 'host',
         'port' => 'port',
         'db' => 'db',
@@ -162,8 +164,10 @@ return [
         'username' => 'username',
         'password' => 'password',
         'is_public' => 'Is Public',
+        'is_assignable' => 'Is Assignable',
         'namespace' => 'namespace',
-        'namespace_id' => 'namespace'
+        'namespace_id' => 'namespace',
+        'default' => 'default',
     ],
 
 ];

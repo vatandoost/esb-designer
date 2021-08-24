@@ -19,9 +19,9 @@ class CreateFunctionParamsTable extends Migration
             $table->foreignUuid('function_id')->references('id')->on('functions');
             $table->string('name');
             $table->tinyInteger('dir_type');
-            $table->tinyInteger('value_type');
-            $table->boolean('is_public')->default(true);
-            $table->boolean('is_initializable')->default(true);
+            $table->string('value_type');
+            //$table->boolean('is_public')->default(true);
+            $table->boolean('is_assignable')->default(true);
             $table->text('default')->nullable();
             $table->text('formula')->nullable();
             $table->timestamps();

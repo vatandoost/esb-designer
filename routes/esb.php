@@ -73,19 +73,30 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/', [FuncController::class, 'index'])
             ->name('function.index');
 
-            Route::post('/', [FuncController::class, 'store'])
-                ->name('function.store');
-    
-            Route::get('/create', [FuncController::class, 'create'])
-                ->name('function.create');
-    
-            Route::get('/{func}', [FuncController::class, 'edit'])
-                ->name('function.edit');
-    
-            Route::post('/{func}', [FuncController::class, 'update'])
-                ->name('function.update');
-            Route::delete('/{func}', [FuncController::class, 'destroy'])
-                ->name('function.delete');
+        Route::post('/', [FuncController::class, 'store'])
+            ->name('function.store');
+
+        Route::get('/create', [FuncController::class, 'create'])
+            ->name('function.create');
+
+        Route::get('/edit/{func}', [FuncController::class, 'edit'])
+            ->name('function.edit');
+
+        Route::post('/{func}', [FuncController::class, 'update'])
+            ->name('function.update');
+        Route::delete('/{func}', [FuncController::class, 'destroy'])
+            ->name('function.delete');
+        Route::get('/{func}', [FuncController::class, 'show'])
+            ->name('function.show');
+        Route::get('/definition/{func}', [FuncController::class, 'definition'])
+            ->name('function.definition');
+
+        Route::get('/parameters/{func}', [FuncController::class, 'parameters'])
+            ->name('function.parameters');
+        Route::post('/parameters/edit/{funcParam}', [FuncController::class, 'parameterSave'])
+            ->name('function.parameter.edit');
+        Route::post('/parameters/save', [FuncController::class, 'parameterSave'])
+            ->name('function.parameter.save');
     });
 
     Route::prefix('utility')->group(function () {

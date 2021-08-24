@@ -39,4 +39,7 @@ return [
     'input_parameters' => 'Input Parameters',
     'output_parameters' => 'Output Parameters',
     'definition' => 'Definition',
+    'parameters' => 'Parameters',
+    'yes' => "Yes",
+    'no' => "No",
 ];

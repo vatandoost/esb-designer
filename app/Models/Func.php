@@ -24,6 +24,6 @@ class Func extends Model
 
     public function params()
     {
-        return $this->hasMany(FuncParams::class, 'function_id', 'id');
+        return $this->hasMany(FuncParam::class, 'function_id', 'id');
     }
 }

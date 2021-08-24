@@ -7,7 +7,7 @@
       { label: __('messages.update') },
     ]"
   >
-    <Form :form="form" :types="types" @submit="submit" />
+    <Detail :item="item" :types="types" :namespaces="namespaces" />
   </App>
 </template>
 
@@ -16,14 +16,14 @@ import App from "@/Layouts/App/App.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { reactive } from "vue";
-import Form from "./Form.vue";
+import Detail from "./Forms/Detail.vue";
 
 export default {
   components: {
     App,
     Head,
     Link,
-    Form,
+    Detail,
   },
   props: {
     item: Object,
