@@ -32,4 +32,8 @@ class FuncParam extends Model
     {
         return $this->belongsTo(Func::class, 'function_id', 'id');
     }
+
+    protected $casts = [
+        'formula' => 'array',
+    ];
 }

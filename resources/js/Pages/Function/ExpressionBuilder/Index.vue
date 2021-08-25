@@ -2,6 +2,9 @@
   <div class="card" v-if="!displayEditor">
     <DataTable :value="records" stripedRows responsiveLayout="scroll">
       <Column field="order" :header="__('messages.order')" :sortable="true">
+        <template #body="slotProps">
+          <InputNumber v-model="slotProps.data.order" />
+        </template>
       </Column>
       <Column
         field="condition_string"
@@ -12,14 +15,12 @@
       <Column field="id" header="">
         <template #body="slotProps">
           <Button
-            :label="__('messages.edit')"
             icon="pi pi-pencil"
             @click="editExp(slotProps.data.id)"
           />
           <Button
-            :label="__('messages.delete')"
             icon="pi pi-trash"
-            class="p-button-danger"
+            class="p-button-danger s ml-1"
             @click="deleteExp(slotProps.data.id)"
           />
         </template>
@@ -56,7 +57,7 @@
       </SplitterPanel>
     </Splitter>
     <Button
-      icon="pi pi-back"
+      icon="pi pi-arrow-left"
       :label="__('messages.cancel')"
       class="p-button-info"
       @click="cancelEdition()"
@@ -206,7 +207,6 @@ export default {
       return result.join(" " + type + " ");
     }
     function saveAll() {
-      console.log("saveAll", records.value);
       emit("save", records.value);
     }
     return {

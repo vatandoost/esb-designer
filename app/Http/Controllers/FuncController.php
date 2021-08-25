@@ -9,6 +9,7 @@ use App\Statics\FieldType;
 use App\Statics\FunctionType;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
 
@@ -61,7 +62,7 @@ class FuncController extends Controller
     {
         $ns = Ns::find($request->namespace_id);
         if (empty($ns)) {
-            // error
+            abort(404);
         }
         $model = new Func();
         $model->name = $request->name;
@@ -78,7 +79,7 @@ class FuncController extends Controller
                 'detail' => __('messages.success_create')
             ]
         );
-        return redirect()->intended(route('function.index'));
+        return redirect()->intended(route('function.show', ['func' => $model->id]));
     }
 
     /**
@@ -121,7 +122,7 @@ class FuncController extends Controller
             $funcParam = new FuncParam();
             $func = Func::find($request->function_id);
             if (empty($func) || !$func->exists) {
-                //error
+                abort(404);
             }
             $funcParam->function()->associate($func);
         }
@@ -132,6 +133,34 @@ class FuncController extends Controller
         $funcParam->is_assignable = $request->is_assignable;
         $funcParam->formula = $request->formula;
         $funcParam->save();
+
+        Session::flash(
+            'toast_message',
+            [
+                'severity' => 'success',
+                'summary' => __('messages.success'),
+                'detail' => ''
+            ]
+        );
+
+        return redirect()->intended(route('function.parameters', ['func' => $funcParam->function->id]));
+    }
+
+    public function parameterDelete(?FuncParam $funcParam, Request $request)
+    {
+        if (empty($funcParam) || !$funcParam->exists) {
+            abort(404);
+        }
+        $funcParam->delete();
+
+        Session::flash(
+            'toast_message',
+            [
+                'severity' => 'success',
+                'summary' => __('messages.success'),
+                'detail' => __('messages.success_delete')
+            ]
+        );
 
         return redirect()->intended(route('function.parameters', ['func' => $funcParam->function->id]));
     }
@@ -144,7 +173,14 @@ class FuncController extends Controller
      */
     public function edit(Func $func)
     {
-        //
+        $types = [];
+        foreach (FunctionType::labels() as $type => $label) {
+            $types[] = ['type' => $type, 'label' => $label];
+        }
+
+        $activeProject = Session::get('active_project');
+        $namespaces = Ns::where('project_id', '=', $activeProject->id)->get();
+        return Inertia::render('Function/Edit', ['item' => $func, 'types' => $types, 'namespaces' => $namespaces]);
     }
 
     /**
@@ -156,7 +192,25 @@ class FuncController extends Controller
      */
     public function update(Request $request, Func $func)
     {
-        //
+        $ns = Ns::find($request->namespace_id);
+        if (empty($ns)) {
+            abort(404);
+        }
+        $func->name = $request->name;
+        $func->type = $request->type;
+        $func->is_public = $request->is_public;
+        $func->ns()->associate($ns);
+        $func->save();
+
+        Session::flash(
+            'toast_message',
+            [
+                'severity' => 'success',
+                'summary' => __('messages.success'),
+                'detail' => __('messages.success_update')
+            ]
+        );
+        return redirect()->intended(route('function.show', ['func' => $func->id]));
     }
 
     /**
@@ -167,6 +221,19 @@ class FuncController extends Controller
      */
     public function destroy(Func $func)
     {
-        //
+        DB::transaction(function () use ($func) {
+            $func->params()->delete();
+            $func->delete();
+        });
+
+        Session::flash(
+            'toast_message',
+            [
+                'severity' => 'success',
+                'summary' => __('messages.success'),
+                'detail' => __('messages.success_delete')
+            ]
+        );
+        return redirect()->intended(route('function.index'));
     }
 }

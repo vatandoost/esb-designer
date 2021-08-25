@@ -24,11 +24,18 @@
               :label="__('messages.create_new')"
               icon="pi pi-plus"
               class="p-button-success p-mr-2"
-              @click="showParamForm = true"
+              @click="openCreateForm()"
             />
           </template>
         </Toolbar>
-        <DataTable :value="params" stripedRows responsiveLayout="scroll">
+        <DataTable
+          :value="params"
+          stripedRows
+          responsiveLayout="scroll"
+          v-model:expandedRows="expandedRows"
+          dataKey="id"
+        >
+          <Column :expander="true" headerStyle="width: 3rem" />
           <Column
             field="name"
             :header="__('validation.attributes.name')"
@@ -40,6 +47,22 @@
             :sortable="true"
           ></Column>
           <Column
+            field="dir_type"
+            :header="__('validation.attributes.direction')"
+            :sortable="true"
+          >
+            <template #body="slotProps">
+              {{ dirTypes[slotProps.data.dir_type] }}
+            </template>
+          </Column>
+          <Column field="formula" :header="__('messages.has_expression')">
+            <template #body="slotProps">
+              {{
+                slotProps.data.formula ? __("messages.yes") : __("messages.no")
+              }}
+            </template>
+          </Column>
+          <Column
             field="type"
             :header="__('validation.attributes.type')"
             :sortable="true"
@@ -50,41 +73,113 @@
           </Column>
           <Column field="id" header="">
             <template #body="slotProps">
-              <Link
-                :href="route('function.edit', { func: slotProps.data.id })"
-                class="mr-2"
-              >
-                <Button icon="pi pi-pencil" />
-              </Link>
+              <Button
+                icon="pi pi-sitemap"
+                class="p-button-success"
+                @click="openExpressionsModal(slotProps.data)"
+              />
+              <Button
+                icon="pi pi-pencil"
+                class="ml-1"
+                @click="openUpdateForm(slotProps.data)"
+              />
               <Button
                 icon="pi pi-trash"
-                class="p-button-danger"
+                class="p-button-danger ml-1"
                 @click="deleteItem(slotProps.data.id)"
               />
             </template>
           </Column>
+
+          <template #expansion="slotProps">
+            <div class="p-5">
+              <div class="grid">
+                <div class="col-12 md:col-4">
+                  <Fieldset :legend="__('messages.details')">
+                    <div class="grid py-1">
+                      <div class="col-3 font-bold">
+                        {{ __("validation.attributes.name") }}
+                      </div>
+                      <div class="col">{{ slotProps.data.name }}</div>
+                    </div>
+                    <div class="grid py-1">
+                      <div class="col-3 font-bold">
+                        {{ __("validation.attributes.default") }}
+                      </div>
+                      <div class="col">{{ slotProps.data.default }}</div>
+                    </div>
+                  </Fieldset>
+                </div>
+                <div class="col-12 md:col-8">
+                  <Fieldset :legend="__('messages.expressions')">
+                    <span v-if="!slotProps.data.formula">
+                      {{ __("messages.no_expression_exist") }} </span
+                    ><DataTable
+                      v-else
+                      :value="slotProps.data.formula"
+                      stripedRows
+                      responsiveLayout="scroll"
+                    >
+                      <Column
+                        field="order"
+                        :header="__('messages.order')"
+                        :sortable="true"
+                      >
+                      </Column>
+                      <Column
+                        field="condition_string"
+                        :header="__('messages.condition')"
+                      ></Column>
+                      <Column
+                        field="expression_string"
+                        :header="__('messages.expression')"
+                      >
+                      </Column>
+                    </DataTable>
+                  </Fieldset>
+                </div>
+              </div>
+            </div>
+          </template>
         </DataTable>
       </template>
     </Card>
   </App>
 
   <Dialog
-    :header="__('messages.create_new')"
+    header="Expressions"
+    v-model:visible="showExpressionsModal"
+    :style="{ width: '80vw' }"
+  >
+    <expression-builder
+      :items="expressions"
+      :variables="variables"
+      @save="saveExpressions"
+    />
+  </Dialog>
+  <Dialog
+    :header="formParam.id == '' ? __('messages.create') : __('messages.update')"
     v-model:visible="showParamForm"
     :style="{ width: '50vw' }"
   >
-    <param-form :fieldTypes="fieldTypes" @submit="submitCreateForm" />
+    <param-form
+      :fieldTypes="fieldTypes"
+      @submit="submitForm"
+      :param="formParam"
+    />
   </Dialog>
 </template>
 
 <script>
-import { ref } from "vue";
+import { reactive, ref } from "vue";
 import Detail from "./Forms/Detail.vue";
 import Params from "./Forms/Params.vue";
 import App from "@/Layouts/App/App.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import ParamForm from "./Forms/ParamForm.vue";
+import { useConfirm } from "primevue/useconfirm";
+import ExpressionBuilder from "./ExpressionBuilder/Index.vue";
 
 export default {
   components: {
@@ -94,6 +189,7 @@ export default {
     Detail,
     Params,
     ParamForm,
+    ExpressionBuilder,
   },
   props: {
     func: Object,
@@ -102,6 +198,7 @@ export default {
   },
   data() {
     return {
+      expandedRows: [],
       menu: [
         {
           label: "Detail",
@@ -123,18 +220,139 @@ export default {
     };
   },
   setup(props) {
+    const showExpressionsModal = ref(false);
+    const expressions = ref([]);
+    const variables = ref([]);
+    /* [
+      { name: "vstring", type: "string" },
+      { name: "vinteger", type: "integer" },
+      { name: "vdouble", type: "double" },
+      { name: "vbool", type: "bool" },
+      { name: "varray_of_string", type: "array_of_string" },
+      { name: "varray_of_number", type: "array_of_number" },
+      { name: "varray_of_object", type: "array_of_object" },
+      { name: "vobject", type: "object" },
+    ]; */
+
+    const confirm = useConfirm();
     const showParamForm = ref(false);
     const ftypes = {};
     props.fieldTypes.map((item) => {
       ftypes[item.type] = item.label;
     });
+    const dirTypes = {
+      0: "In",
+      1: "Out",
+    };
+    const formParam = reactive({
+      id: "",
+      name: "",
+      value_type: "",
+      default: "",
+      dir_type: 0,
+      is_assignable: true,
+      formula: [],
+    });
 
-    function submitCreateForm(data) {
+    function submitForm(data) {
       data.function_id = props.func.id;
-      Inertia.post(route("function.parameter.save"), data);
+      if (data.id != "") {
+        Inertia.post(
+          route("function.parameter.edit", { funcParam: data.id }),
+          data
+        );
+      } else {
+        Inertia.post(route("function.parameter.save"), data);
+      }
       showParamForm.value = false;
     }
-    return { showParamForm, submitCreateForm, ftypes };
+
+    function deleteItem(id) {
+      confirm.require({
+        message: "Do you want to delete this record?",
+        header: "Delete Confirmation",
+        icon: "pi pi-info-circle",
+        acceptClass: "p-button-danger",
+        accept: () => {
+          Inertia.visit(route("function.parameter.delete", { funcParam: id }), {
+            method: "DELETE",
+          });
+        },
+        reject: () => {
+          //console.log("reject");
+        },
+      });
+    }
+    function openCreateForm() {
+      formParam.id = "";
+      formParam.name = "";
+      formParam.value_type = "";
+      formParam.default = "";
+      formParam.dir_type = 0;
+      formParam.formula = [];
+      formParam.is_assignable = true;
+
+      showParamForm.value = true;
+    }
+    function openUpdateForm(item) {
+      formParam.id = item.id;
+      formParam.name = item.name;
+      formParam.value_type = item.value_type;
+      formParam.default = item.default;
+      formParam.dir_type = item.dir_type;
+      formParam.is_assignable = item.is_assignable;
+      formParam.formula = item.formula;
+
+      showParamForm.value = true;
+    }
+    function openExpressionsModal(item) {
+      formParam.id = item.id;
+      formParam.name = item.name;
+      formParam.value_type = item.value_type;
+      formParam.default = item.default;
+      formParam.dir_type = item.dir_type;
+      formParam.is_assignable = item.is_assignable;
+      expressions.value = JSON.parse(JSON.stringify(item.formula));
+      variables.value = [];
+      props.params.map((v) => {
+        if (item.dir_type == 0 && v.dir_type == 1) {
+          // return out params only if current is out
+          return;
+        }
+        variables.value.push({
+          name: v.name,
+          type: v.value_type,
+        });
+      });
+      showExpressionsModal.value = true;
+    }
+    function saveExpressions(data) {
+      formParam.formula = data;
+      const postData = JSON.parse(JSON.stringify(formParam));
+      const id = formParam.id;
+      console.log("function.parameter.edit", postData, id);
+      Inertia.post(
+        route("function.parameter.edit", { funcParam: id }),
+        postData
+      );
+      showExpressionsModal.value = false;
+    }
+
+    return {
+      showParamForm,
+      submitForm,
+      ftypes,
+      dirTypes,
+      deleteItem,
+      formParam,
+      openCreateForm,
+      openUpdateForm,
+      expressions,
+      variables,
+      showExpressionsModal,
+      openExpressionsModal,
+      saveExpressions,
+    };
   },
 };
 </script>

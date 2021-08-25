@@ -42,4 +42,7 @@ return [
     'parameters' => 'Parameters',
     'yes' => "Yes",
     'no' => "No",
+    "expressions" => 'Expressions',
+    "has_expression" => 'Has Expression',
+    "no_expression_exist" => "No expression exist"
 ];

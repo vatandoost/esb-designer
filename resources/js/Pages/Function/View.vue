@@ -48,6 +48,11 @@
           </div>
         </div>
       </template>
+      <template #footer>
+        <Link :href="route('function.edit', { func: func.id })">
+          <Button icon="pi pi-pencil" :label="__('messages.update')" />
+        </Link>
+      </template>
     </Card>
   </App>
 </template>

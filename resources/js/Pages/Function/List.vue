@@ -70,17 +70,6 @@
       class="p-button-success"
       @click="showModal = true"
     />
-    <Dialog
-      header="Expressions"
-      v-model:visible="showModal"
-      :style="{ width: '80vw' }"
-    >
-      <expression-builder
-        :items="expressions"
-        :variables="variables"
-        @save="showModal = false"
-      />
-    </Dialog>
   </App>
 </template>
 
@@ -89,7 +78,6 @@ import App from "@/Layouts/App/App.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { useConfirm } from "primevue/useconfirm";
-import ExpressionBuilder from "./ExpressionBuilder/Index.vue";
 import { ref } from "@vue/reactivity";
 
 export default {
@@ -97,7 +85,6 @@ export default {
     App,
     Head,
     Link,
-    ExpressionBuilder,
   },
   props: {
     items: Array,
@@ -124,18 +111,7 @@ export default {
       });
     }
 
-    const showModal = ref(false);
-    const variables = [
-      { name: "vstring", type: "string" },
-      { name: "vinteger", type: "integer" },
-      { name: "vdouble", type: "double" },
-      { name: "vbool", type: "bool" },
-      { name: "varray_of_string", type: "array_of_string" },
-      { name: "varray_of_number", type: "array_of_number" },
-      { name: "varray_of_object", type: "array_of_object" },
-      { name: "vobject", type: "object" },
-    ];
-    return { deleteItem, expressions, showModal, variables };
+    return { deleteItem };
   },
 };
 </script>

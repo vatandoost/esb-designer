@@ -23,7 +23,7 @@ class CreateFunctionParamsTable extends Migration
             //$table->boolean('is_public')->default(true);
             $table->boolean('is_assignable')->default(true);
             $table->text('default')->nullable();
-            $table->text('formula')->nullable();
+            $table->jsonb('formula')->nullable();
             $table->timestamps();
         });
     }

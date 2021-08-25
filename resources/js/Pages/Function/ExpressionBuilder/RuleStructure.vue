@@ -112,7 +112,10 @@ export default {
 
     const operators = computed(() => {
       const type = getFirstType();
-      const validOperators = Object.keys(props.config.type_operators[type]);
+      let validOperators = [];
+      if (props.config.type_operators) {
+        validOperators = Object.keys(props.config.type_operators[type]);
+      }
       const result = [];
       for (const op in props.config.operators) {
         if (!validOperators.includes(op)) continue;

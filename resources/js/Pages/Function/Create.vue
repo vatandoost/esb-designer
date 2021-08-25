@@ -7,13 +7,6 @@
       { label: __('messages.create') },
     ]"
   >
-    <!-- <Form
-      :item="item"
-      :types="types"
-      :fieldTypes="fieldTypes"
-      :namespaces="namespaces"
-      @submit="submit"
-    /> -->
     <Detail
       :item="item"
       :types="types"
@@ -43,7 +36,7 @@ export default {
     namespaces: Array,
   },
   setup(props) {
-    const item = useRemember({
+    const item = reactive({
       name: null,
       type: null,
       namespace_id: null,

@@ -95,6 +95,8 @@ Route::middleware(['auth'])->group(function () {
             ->name('function.parameters');
         Route::post('/parameters/edit/{funcParam}', [FuncController::class, 'parameterSave'])
             ->name('function.parameter.edit');
+        Route::delete('/parameters/delete/{funcParam}', [FuncController::class, 'parameterDelete'])
+            ->name('function.parameter.delete');
         Route::post('/parameters/save', [FuncController::class, 'parameterSave'])
             ->name('function.parameter.save');
     });

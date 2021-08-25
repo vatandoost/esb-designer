@@ -59,11 +59,11 @@
       <small class="p-error">{{ errors.default }}</small>
     </div>
     <div class="field col-12 md:col-10">
-      <label for="is_public">
-        {{ __("validation.attributes.is_public") }}
+      <label for="is_assignable">
+        {{ __("validation.attributes.is_assignable") }}
       </label>
       <br />
-      <InputSwitch id="is_public" v-model="item.is_assignable" />
+      <InputSwitch id="is_assignable" v-model="item.is_assignable" />
     </div>
     <div class="field col-12 md:col-10">
       <Button
@@ -82,21 +82,24 @@ import * as yup from "yup";
 export default {
   props: {
     fieldTypes: Array,
+    param: Object,
   },
   setup(props, { emit }) {
     const errors = reactive({});
-    const fieldType = ref();
-    const dirType = ref();
+    const fieldType = ref(props.param.value_type);
+    const dirType = ref(props.param.dir_type);
     const dirTypes = [
       { label: "In", code: 0 },
       { label: "Out", code: 1 },
     ];
     const item = reactive({
-      name: "",
-      value_type: "",
-      default: "",
-      dir_type: 0,
-      is_assignable: true,
+      id: props.param.id,
+      name: props.param.name,
+      value_type: props.param.value_type,
+      default: props.param.defaul,
+      dir_type: props.param.dir_type,
+      is_assignable: props.param.is_assignable,
+      formula: props.param.formula,
     });
 
     let schema = yup.object().shape({
