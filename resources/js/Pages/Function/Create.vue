@@ -38,6 +38,7 @@ export default {
   setup(props) {
     const item = reactive({
       name: null,
+      timeout: 0,
       type: null,
       namespace_id: null,
       is_public: false,

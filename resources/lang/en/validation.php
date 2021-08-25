@@ -164,10 +164,14 @@ return [
         'username' => 'username',
         'password' => 'password',
         'is_public' => 'Is Public',
-        'is_assignable' => 'Is Assignable',
+        'is_assignable' => 'Assignable',
         'namespace' => 'namespace',
         'namespace_id' => 'namespace',
         'default' => 'default',
+        'is_required' => 'Required',
+        'timeout' => 'timeout',
+        'path' => 'path',
+        'parent_id' => 'parent',
     ],
 
 ];

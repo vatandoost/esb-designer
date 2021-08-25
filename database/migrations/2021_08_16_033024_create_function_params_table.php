@@ -17,10 +17,12 @@ class CreateFunctionParamsTable extends Migration
         Schema::create('function_params', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
             $table->foreignUuid('function_id')->references('id')->on('functions');
+            $table->foreignUuid('parent_id')->nullable();
             $table->string('name');
             $table->tinyInteger('dir_type');
             $table->string('value_type');
-            //$table->boolean('is_public')->default(true);
+            $table->string('path')->nullable();
+            $table->boolean('is_required')->default(false);
             $table->boolean('is_assignable')->default(true);
             $table->text('default')->nullable();
             $table->jsonb('formula')->nullable();

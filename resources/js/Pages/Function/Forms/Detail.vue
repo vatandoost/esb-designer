@@ -58,6 +58,20 @@
     </div>
     <div class="p-fluid formgrid grid">
       <div class="field col-12 md:col-6">
+        <label for="timeout">
+          {{ __("validation.attributes.timeout") }}
+        </label>
+        <InputText
+          id="timeout"
+          :class="{ 'p-invalid': !!errors.timeout }"
+          type="text"
+          v-model="item.timeout"
+        />
+        <small class="p-error">{{ errors.timeout }}</small>
+      </div>
+    </div>
+    <div class="p-fluid formgrid grid">
+      <div class="field col-12 md:col-6">
         <label for="is_public">
           {{ __("validation.attributes.is_public") }}
         </label>
@@ -92,6 +106,7 @@ export default {
 
     let schema = yup.object().shape({
       name: yup.string().required().nullable(),
+      timeout: yup.number(),
       namespace_id: yup.string().required().nullable(),
       type: yup.string().required().nullable(),
       is_public: yup.boolean(),

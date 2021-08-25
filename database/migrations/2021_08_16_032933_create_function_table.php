@@ -18,6 +18,7 @@ class CreateFunctionTable extends Migration
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
             $table->foreignUuid('namespace_id')->references('id')->on('namespaces');
             $table->string('name');
+            $table->integer('timeout')->default(0);
             $table->boolean('is_public')->default(false);
             $table->string('type'); // Api, DB , ...
             $table->jsonb('config')->nullable();

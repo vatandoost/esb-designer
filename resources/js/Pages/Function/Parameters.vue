@@ -58,7 +58,9 @@
           <Column field="formula" :header="__('messages.has_expression')">
             <template #body="slotProps">
               {{
-                slotProps.data.formula ? __("messages.yes") : __("messages.no")
+                slotProps.data.formula && slotProps.data.formula.length
+                  ? __("messages.yes")
+                  : __("messages.no")
               }}
             </template>
           </Column>
@@ -104,6 +106,30 @@
                     </div>
                     <div class="grid py-1">
                       <div class="col-3 font-bold">
+                        {{ __("validation.attributes.is_required") }}
+                      </div>
+                      <div class="col">{{ slotProps.data.is_required ? __("messages.yes") : __("messages.no") }}</div>
+                    </div>
+                    <div class="grid py-1" v-if="slotProps.data.parent_id">
+                      <div class="col-3 font-bold">
+                        {{ __("validation.attributes.parent_id") }}
+                      </div>
+                      <div class="col">
+                        {{
+                          params.find((p) => slotProps.data.parent_id == p.id)
+                            ?.name
+                        }}
+                      </div>
+                    </div>
+                    <div class="grid py-1" v-if="slotProps.data.dir_type == 1">
+                      <div class="col-3 font-bold">
+                        {{ __("validation.attributes.path") }}
+                      </div>
+                      <div class="col">{{ slotProps.data.path }}</div>
+                    </div>
+
+                    <div class="grid py-1">
+                      <div class="col-3 font-bold">
                         {{ __("validation.attributes.default") }}
                       </div>
                       <div class="col">{{ slotProps.data.default }}</div>
@@ -112,7 +138,12 @@
                 </div>
                 <div class="col-12 md:col-8">
                   <Fieldset :legend="__('messages.expressions')">
-                    <span v-if="!slotProps.data.formula">
+                    <span
+                      v-if="
+                        !slotProps.data.formula ||
+                        slotProps.data.formula.length == 0
+                      "
+                    >
                       {{ __("messages.no_expression_exist") }} </span
                     ><DataTable
                       v-else
@@ -164,6 +195,7 @@
   >
     <param-form
       :fieldTypes="fieldTypes"
+      :params="params"
       @submit="submitForm"
       :param="formParam"
     />
@@ -173,7 +205,6 @@
 <script>
 import { reactive, ref } from "vue";
 import Detail from "./Forms/Detail.vue";
-import Params from "./Forms/Params.vue";
 import App from "@/Layouts/App/App.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
@@ -187,7 +218,6 @@ export default {
     Head,
     Link,
     Detail,
-    Params,
     ParamForm,
     ExpressionBuilder,
   },
@@ -202,18 +232,18 @@ export default {
       menu: [
         {
           label: "Detail",
-          icon: "pi pi-fw pi-home",
+          icon: "pi pi-fw pi-bars",
           url: route("function.show", { func: this.func.id }),
         },
         {
           label: "Parameters",
-          icon: "pi pi-fw pi-home",
+          icon: "pi pi-fw pi-list",
           class: "p-highlight",
           url: route("function.parameters", { func: this.func.id }),
         },
         {
           label: "Definition",
-          icon: "pi pi-fw pi-home",
+          icon: "pi pi-fw pi-sitemap",
           url: route("function.definition", { func: this.func.id }),
         },
       ],
@@ -223,17 +253,6 @@ export default {
     const showExpressionsModal = ref(false);
     const expressions = ref([]);
     const variables = ref([]);
-    /* [
-      { name: "vstring", type: "string" },
-      { name: "vinteger", type: "integer" },
-      { name: "vdouble", type: "double" },
-      { name: "vbool", type: "bool" },
-      { name: "varray_of_string", type: "array_of_string" },
-      { name: "varray_of_number", type: "array_of_number" },
-      { name: "varray_of_object", type: "array_of_object" },
-      { name: "vobject", type: "object" },
-    ]; */
-
     const confirm = useConfirm();
     const showParamForm = ref(false);
     const ftypes = {};
@@ -249,7 +268,10 @@ export default {
       name: "",
       value_type: "",
       default: "",
-      dir_type: 0,
+      dir_type: null,
+      parent_id: null,
+      path: "",
+      is_required: false,
       is_assignable: true,
       formula: [],
     });
@@ -288,9 +310,12 @@ export default {
       formParam.name = "";
       formParam.value_type = "";
       formParam.default = "";
-      formParam.dir_type = 0;
-      formParam.formula = [];
+      formParam.dir_type = null;
+      formParam.parent_id = null;
+      formParam.path = "";
+      formParam.is_required = false;
       formParam.is_assignable = true;
+      formParam.formula = [];
 
       showParamForm.value = true;
     }
@@ -301,6 +326,9 @@ export default {
       formParam.default = item.default;
       formParam.dir_type = item.dir_type;
       formParam.is_assignable = item.is_assignable;
+      formParam.parent_id = item.parent_id;
+      formParam.path = item.path;
+      formParam.is_required = item.is_required;
       formParam.formula = item.formula;
 
       showParamForm.value = true;
@@ -312,6 +340,10 @@ export default {
       formParam.default = item.default;
       formParam.dir_type = item.dir_type;
       formParam.is_assignable = item.is_assignable;
+      formParam.parent_id = item.parent_id;
+      formParam.path = item.path;
+      formParam.is_required = item.is_required;
+      formParam.formula = item.formula;
       expressions.value = JSON.parse(JSON.stringify(item.formula));
       variables.value = [];
       props.params.map((v) => {

@@ -40,6 +40,7 @@ export default {
     console.log(props.item);
     const form = reactive({
       name: props.item.name,
+      timeout: props.item.timeout,
       type: props.item.type,
       namespace_id: props.item.namespace_id,
       is_public: props.item.is_public,

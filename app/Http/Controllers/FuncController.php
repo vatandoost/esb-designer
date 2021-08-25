@@ -98,9 +98,9 @@ class FuncController extends Controller
     }
     public function definition(Func $func)
     {
-        return Inertia::render('Function/View', [
+        return Inertia::render('Function/Definition', [
             'func' => $func,
-            'params' => $func->params
+            'types' => FunctionType::labels()
         ]);
     }
     public function parameters(Func $func)
@@ -130,6 +130,9 @@ class FuncController extends Controller
         $funcParam->default = $request->default;
         $funcParam->dir_type = $request->dir_type;
         $funcParam->value_type = $request->value_type;
+        $funcParam->is_required = $request->is_required;
+        $funcParam->path = $request->path;
+        $funcParam->parent_id = $request->parent_id;
         $funcParam->is_assignable = $request->is_assignable;
         $funcParam->formula = $request->formula;
         $funcParam->save();

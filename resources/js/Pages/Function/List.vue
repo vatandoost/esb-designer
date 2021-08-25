@@ -62,14 +62,6 @@
         </Column>
       </DataTable>
     </div>
-
-    <br />
-    <hr />
-    <Button
-      label="showExpressions"
-      class="p-button-success"
-      @click="showModal = true"
-    />
   </App>
 </template>
 

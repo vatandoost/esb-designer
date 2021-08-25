@@ -4,7 +4,8 @@
   <App
     :breadcrumbs="[
       { label: __('messages.functions'), to: route('function.index') },
-      { label: func.name },
+      { label: func.name, to: route('function.show', { func: func.id }) },
+      { label: __('messages.definition') },
     ]"
   >
     <TabMenu :model="menu" :exact="false">
@@ -27,12 +28,6 @@
             </div>
             <div class="grid py-1">
               <div class="col-3 font-bold">
-                {{ __("validation.attributes.namespace") }}
-              </div>
-              <div class="col">{{ func.ns.name }}</div>
-            </div>
-            <div class="grid py-1">
-              <div class="col-3 font-bold">
                 {{ __("validation.attributes.type") }}
               </div>
               <div class="col">{{ types[func.type] }}</div>
@@ -44,12 +39,6 @@
               <div class="col">
                 {{ func.is_public ? __("messages.yes") : __("messages.no") }}
               </div>
-            </div>
-            <div class="grid py-1">
-              <div class="col-3 font-bold">
-                {{ __("validation.attributes.timeout") }}
-              </div>
-              <div class="col">{{ func.timeout }}</div>
             </div>
           </div>
         </div>
@@ -87,7 +76,6 @@ export default {
         {
           label: "Detail",
           icon: "pi pi-fw pi-bars",
-          class: "p-highlight",
           url: route("function.show", { func: this.func.id }),
         },
         {
@@ -98,6 +86,7 @@ export default {
         {
           label: "Definition",
           icon: "pi pi-fw pi-sitemap",
+          class: "p-highlight",
           url: route("function.definition", { func: this.func.id }),
         },
       ],
