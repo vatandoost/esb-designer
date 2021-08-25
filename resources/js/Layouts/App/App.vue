@@ -184,7 +184,7 @@ export default {
         {
           label: this.__("messages.dashboard"),
           icon: ["fas", "tachometer-alt"],
-          to: "/dashboard",
+          to: "/",
         },
         {
           label: this.__("messages.projects"),
