@@ -17,6 +17,10 @@ class Func extends Model
     protected $keyType = 'string';
     protected $table = 'functions';
 
+    protected $casts = [
+        'config' => 'array',
+    ];
+
     public function ns()
     {
         return $this->belongsTo(Ns::class, 'namespace_id', 'id');

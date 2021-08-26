@@ -61,10 +61,9 @@
         <label for="timeout">
           {{ __("validation.attributes.timeout") }}
         </label>
-        <InputText
+        <InputNumber
           id="timeout"
           :class="{ 'p-invalid': !!errors.timeout }"
-          type="text"
           v-model="item.timeout"
         />
         <small class="p-error">{{ errors.timeout }}</small>

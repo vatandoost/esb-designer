@@ -30,7 +30,7 @@ Route::middleware(['auth'])->group(function () {
             ->name('project.activate');
     });
 
-    Route::prefix('namespace')->group(function () {
+    Route::prefix('namespace')->middleware('can:active-project')->group(function () {
 
         Route::get('/', [NsController::class, 'index'])
             ->name('namespace.index');
@@ -48,7 +48,7 @@ Route::middleware(['auth'])->group(function () {
             ->name('namespace.update');
     });
 
-    Route::prefix('database')->group(function () {
+    Route::prefix('database')->middleware('can:active-project')->group(function () {
 
         Route::get('/', [DbController::class, 'index'])
             ->name('database.index');
@@ -68,7 +68,7 @@ Route::middleware(['auth'])->group(function () {
             ->name('database.delete');
     });
 
-    Route::prefix('function')->group(function () {
+    Route::prefix('function')->middleware('can:active-project')->group(function () {
 
         Route::get('/', [FuncController::class, 'index'])
             ->name('function.index');
@@ -88,8 +88,11 @@ Route::middleware(['auth'])->group(function () {
             ->name('function.delete');
         Route::get('/{func}', [FuncController::class, 'show'])
             ->name('function.show');
+
         Route::get('/definition/{func}', [FuncController::class, 'definition'])
             ->name('function.definition');
+        Route::post('/definition/{func}', [FuncController::class, 'definitionStore'])
+            ->name('function.definition.store');
 
         Route::get('/parameters/{func}', [FuncController::class, 'parameters'])
             ->name('function.parameters');

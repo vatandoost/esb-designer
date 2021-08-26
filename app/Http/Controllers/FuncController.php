@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Db as ModelsDb;
 use App\Models\Func;
 use App\Models\FuncParam;
 use App\Models\Ns;
@@ -68,6 +69,7 @@ class FuncController extends Controller
         $model->name = $request->name;
         $model->type = $request->type;
         $model->is_public = $request->is_public;
+        $model->timeout = $request->timeout;
         $model->ns()->associate($ns);
         $model->save();
 
@@ -96,13 +98,35 @@ class FuncController extends Controller
             'types' => FunctionType::labels()
         ]);
     }
+
     public function definition(Func $func)
     {
+        $options = [];
+        $activeProject = Session::get('active_project');
+        if ($func->type == FunctionType::TYPE_DB) {
+            $options['databases'] = ModelsDb::where('project_id', '=', $activeProject->id)->get();
+        }
         return Inertia::render('Function/Definition', [
             'func' => $func,
-            'types' => FunctionType::labels()
+            'options' => $options
         ]);
     }
+    public function definitionStore(Func $func, Request $request)
+    {
+        $func->config = $request->config;
+        $func->save();
+        Session::flash(
+            'toast_message',
+            [
+                'severity' => 'success',
+                'summary' => __('messages.success'),
+                'detail' => ''
+            ]
+        );
+
+        return redirect()->intended(route('function.definition', ['func' => $func->id]));
+    }
+
     public function parameters(Func $func)
     {
         $fieldTypes = [];
@@ -202,6 +226,7 @@ class FuncController extends Controller
         $func->name = $request->name;
         $func->type = $request->type;
         $func->is_public = $request->is_public;
+        $func->timeout = $request->timeout;
         $func->ns()->associate($ns);
         $func->save();
 

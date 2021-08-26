@@ -362,7 +362,6 @@ export default {
       formParam.formula = data;
       const postData = JSON.parse(JSON.stringify(formParam));
       const id = formParam.id;
-      console.log("function.parameter.edit", postData, id);
       Inertia.post(
         route("function.parameter.edit", { funcParam: id }),
         postData

@@ -18,35 +18,7 @@
     </TabMenu>
     <Card>
       <template #content>
-        <div class="grid">
-          <div class="col-12 md:col-6">
-            <div class="grid py-1">
-              <div class="col-3 font-bold">
-                {{ __("validation.attributes.name") }}
-              </div>
-              <div class="col">{{ func.name }}</div>
-            </div>
-            <div class="grid py-1">
-              <div class="col-3 font-bold">
-                {{ __("validation.attributes.type") }}
-              </div>
-              <div class="col">{{ types[func.type] }}</div>
-            </div>
-            <div class="grid py-1">
-              <div class="col-3 font-bold">
-                {{ __("validation.attributes.is_public") }}
-              </div>
-              <div class="col">
-                {{ func.is_public ? __("messages.yes") : __("messages.no") }}
-              </div>
-            </div>
-          </div>
-        </div>
-      </template>
-      <template #footer>
-        <Link :href="route('function.edit', { func: func.id })">
-          <Button icon="pi pi-pencil" :label="__('messages.update')" />
-        </Link>
+        <database v-if="func.type == 'db'" :options="options" :func="func" />
       </template>
     </Card>
   </App>
@@ -57,7 +29,7 @@ import { ref } from "vue";
 import Detail from "./Forms/Detail.vue";
 import App from "@/Layouts/App/App.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
-import { Inertia } from "@inertiajs/inertia";
+import Database from "./Definitions/Database.vue";
 
 export default {
   components: {
@@ -65,10 +37,11 @@ export default {
     Head,
     Link,
     Detail,
+    Database,
   },
   props: {
     func: Object,
-    types: Array,
+    options: Object,
   },
   data() {
     return {

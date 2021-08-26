@@ -4,7 +4,8 @@ return [
     'dashboard' => 'Dashboard',
     'projects' => 'Projects',
     'namespaces' => 'Namespaces',
-    'databases' => 'Database',
+    'databases' => 'Databases',
+    'database' => 'Database',
     'providers' => 'Providers',
     'functions' => 'Functions',
     'variables' => 'Variables',
@@ -44,5 +45,6 @@ return [
     'no' => "No",
     "expressions" => 'Expressions',
     "has_expression" => 'Has Expression',
-    "no_expression_exist" => "No expression exist"
+    "no_expression_exist" => "No expression exist",
+    "sql_commands" => 'SQL Commands'
 ];
