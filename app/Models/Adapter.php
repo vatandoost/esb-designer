@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Runner extends Model
+class Adapter extends Model
 {
     use HasFactory;
 
@@ -16,8 +16,20 @@ class Runner extends Model
      */
     protected $keyType = 'string';
 
+    protected $casts = [
+        'config' => 'array',
+        'function_config' => 'array',
+    ];
+
+    protected $fillable = ['name', 'type', 'function_id', 'function_config', 'config'];
+
     public function project()
     {
         return $this->belongsTo(Project::class, 'project_id', 'id');
+    }
+
+    public function function()
+    {
+        return $this->belongsTo(Func::class, 'function_id', 'id');
     }
 }

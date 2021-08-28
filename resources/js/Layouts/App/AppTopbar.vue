@@ -10,8 +10,8 @@
       >
         <Button
           :label="this.$page.props.activeProject.name"
-          class="p-button-primary"
-          style="color: #fff"
+          class="p-button-secondary"
+          style="color: #fff; margin-top: -5px"
         />
       </Link>
       <Link :href="route('logout')" method="post">

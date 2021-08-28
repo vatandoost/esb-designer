@@ -199,6 +199,16 @@ export default {
           icon: ["fas", "folder-open"],
         },
         {
+          label: this.__("messages.functions"),
+          to: "/function",
+          icon: ["fas", "project-diagram"],
+        },
+        {
+          label: this.__("messages.adapters"),
+          to: "/adapter",
+          icon: ["fas", "retweet"],
+        },
+        {
           label: this.__("messages.databases"),
           to: "/database",
           icon: ["fas", "database"],
@@ -207,11 +217,6 @@ export default {
           label: this.__("messages.providers"),
           to: "/provider",
           icon: ["fas", "cubes"],
-        },
-        {
-          label: this.__("messages.functions"),
-          to: "/function",
-          icon: ["fas", "project-diagram"],
         },
         {
           label: this.__("messages.variables"),

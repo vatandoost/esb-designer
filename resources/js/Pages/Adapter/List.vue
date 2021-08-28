@@ -1,12 +1,8 @@
 <template>
-  <Head :title="__('messages.databases')" />
+  <Head :title="__('messages.adapters')" />
 
-  <App
-    :breadcrumbs="[
-      { label: __('messages.databases'), to: route('database.index') },
-    ]"
-  >
-    <Link :href="route('database.create')">
+  <App :breadcrumbs="[{ label: __('messages.adapters'), to: route('adapter.index') }]">
+    <Link :href="route('adapter.create')">
       <Button
         :label="__('messages.create_new')"
         class="mb-2"
@@ -31,7 +27,7 @@
       <Column field="id" header="">
         <template #body="slotProps">
           <Link
-            :href="route('database.edit', { db: slotProps.data.id })"
+            :href="route('adapter.edit', { adapter: slotProps.data.id })"
             class="mr-2"
           >
             <Button :label="__('messages.edit')" icon="pi pi-pencil" />
@@ -76,7 +72,7 @@ export default {
         icon: "pi pi-info-circle",
         acceptClass: "p-button-danger",
         accept: () => {
-          Inertia.visit(route("database.delete", { db: id }), {
+          Inertia.visit(route("adapter.delete", { adapter: id }), {
             method: "DELETE",
           });
         },

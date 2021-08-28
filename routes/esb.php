@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdapterController;
 use App\Http\Controllers\DbController;
 use App\Http\Controllers\FuncController;
 use App\Http\Controllers\NsController;
@@ -66,6 +67,29 @@ Route::middleware(['auth'])->group(function () {
             ->name('database.update');
         Route::delete('/{db}', [DbController::class, 'destroy'])
             ->name('database.delete');
+    });
+
+    Route::prefix('adapter')->middleware('can:active-project')->group(function () {
+
+        Route::get('/', [AdapterController::class, 'index'])
+            ->name('adapter.index');
+
+        Route::post('/', [AdapterController::class, 'store'])
+            ->name('adapter.store');
+
+        Route::get('/create', [AdapterController::class, 'create'])
+            ->name('adapter.create');
+
+        Route::get('/{adapter}', [AdapterController::class, 'edit'])
+            ->name('adapter.edit');
+
+        Route::post('/{adapter}', [AdapterController::class, 'update'])
+            ->name('adapter.update');
+        Route::delete('/{adapter}', [AdapterController::class, 'destroy'])
+            ->name('adapter.delete');
+            
+        Route::get('/options/{func}/{type}', [AdapterController::class, 'options'])
+        ->name('adapter.options');
     });
 
     Route::prefix('function')->middleware('can:active-project')->group(function () {
