@@ -27,8 +27,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/{project}', [ProjectController::class, 'update'])
             ->name('project.update')->middleware('can:update,project');
 
-        Route::get('/activate/{id}', [ProjectController::class, 'activate'])
-            ->name('project.activate');
+        Route::delete('/{project}', [ProjectController::class, 'destroy'])
+            ->name('project.delete')->middleware('can:update,project');
+
+        Route::post('/activate/{project}', [ProjectController::class, 'activate'])
+            ->name('project.activate')->middleware('can:update,project');
     });
 
     Route::prefix('namespace')->middleware('can:active-project')->group(function () {

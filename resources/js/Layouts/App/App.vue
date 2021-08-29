@@ -35,6 +35,10 @@
           <Link :href="item.to" v-else>{{ item.label }}</Link>
         </template>
       </Breadcrumb>
+
+      <Message severity="error" :closable="false" v-if="errorText != ''">
+        <div v-html="errorText" />
+      </Message>
       <slot />
     </div>
 
@@ -76,6 +80,15 @@ export default {
         detail: this.$page.props.toast.detail,
         life: 3000,
       });
+    }
+    if (this.$page.props.errors != null) {
+      //console.log("errors", this.$page.props.errors);
+      // this.$toast.add({
+      //   severity: this.$page.props.toast.severity,
+      //   summary: this.$page.props.toast.summary,
+      //   detail: this.$page.props.toast.detail,
+      //   life: 3000,
+      // });
     }
   },
   methods: {
@@ -151,6 +164,9 @@ export default {
     },
   },
   computed: {
+    errorText() {
+      return Object.values(this.$page.props.errors).join("<br />");
+    },
     containerClass() {
       return [
         "layout-wrapper",

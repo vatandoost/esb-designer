@@ -18,7 +18,7 @@ class CreateProjectTable extends Migration
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
             $table->foreignUuid('main_namespace_id')->nullable();
             $table->foreignId('owner_id')->references('id')->on('users');
-            $table->string('name');
+            $table->string('name')->unique();
             $table->timestamps();
         });
     }

@@ -30,4 +30,9 @@ class Func extends Model
     {
         return $this->hasMany(FuncParam::class, 'function_id', 'id');
     }
+
+    public function adapters()
+    {
+        return $this->hasMany(Adapter::class, 'function_id', 'id');
+    }
 }

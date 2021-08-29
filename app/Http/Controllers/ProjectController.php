@@ -25,9 +25,8 @@ class ProjectController extends Controller
         ]);
     }
 
-    public function activate($id)
+    public function activate(Project $project)
     {
-        $project = Project::find($id);
         Session::put('active_project', $project);
         return $project;
     }
@@ -50,6 +49,9 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'name' => ['required', 'unique:' . Project::class]
+        ]);
         DB::transaction(function () use ($request) {
             $project = new Project();
             $project->owner_id = Auth::user()->id;
@@ -108,6 +110,9 @@ class ProjectController extends Controller
      */
     public function update(Request $request, Project $project)
     {
+        $request->validate([
+            'name' => ['required', 'unique:' . Project::class]
+        ]);
         $project->update($request->all());
         Session::flash(
             'toast_message',
@@ -128,6 +133,19 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $activeProject = Session::get('active_project');
+        if($activeProject && $activeProject->id == $project->id){
+            Session::remove('active_project');
+        }
+        $project->delete();
+        Session::flash(
+            'toast_message',
+            [
+                'severity' => 'success',
+                'summary' => __('messages.success'),
+                'detail' => __('messages.success_delete')
+            ]
+        );
+        return redirect()->intended(route('project.index'));
     }
 }

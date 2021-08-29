@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\Adapter;
+use App\Statics\AdapterType;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 class AdapterFactory extends Factory
@@ -22,7 +23,10 @@ class AdapterFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'name' => $this->faker->text(50),
+            'type' => array_rand(array_keys(AdapterType::labels())),
+            'created_at' => now(),
+            'updated_at' => now(),
         ];
     }
 }

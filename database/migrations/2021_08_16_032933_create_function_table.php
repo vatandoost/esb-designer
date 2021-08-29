@@ -16,7 +16,8 @@ class CreateFunctionTable extends Migration
     {
         Schema::create('functions', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
-            $table->foreignUuid('namespace_id')->references('id')->on('namespaces');
+            $table->foreignUuid('namespace_id')->references('id')->on('namespaces')
+                ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->string('name');
             $table->integer('timeout')->default(0);
             $table->boolean('is_public')->default(false);

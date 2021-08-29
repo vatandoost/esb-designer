@@ -33,6 +33,12 @@
           <Link :href="'/project/' + slotProps.data.id">
             <Button :label="__('messages.edit')" icon="pi pi-pencil" />
           </Link>
+          <Button
+            :label="__('messages.delete')"
+            @click="deleteProject(slotProps.data.id)"
+            icon="pi pi-trash"
+            class="ml-2 p-button-danger"
+          />
         </template>
       </Column>
     </DataTable>
@@ -45,6 +51,7 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { computed, ref } from "vue";
 import axios from "axios";
+import { useConfirm } from "primevue/useconfirm";
 
 export default {
   components: {
@@ -57,16 +64,36 @@ export default {
     activeProject: Object,
   },
   setup(props) {
+    const confirm = useConfirm();
     const activeId = computed(() =>
       props.activeProject ? props.activeProject.id : ""
     );
 
     async function activateProject(id) {
-      const { data } = await axios.get("/project/activate/" + id);
+      const { data } = await axios.post(
+        route("project.activate", { project: id })
+      );
       //activeId.value = data.id;
       Inertia.reload();
     }
-    return { activateProject, activeId };
+
+    async function deleteProject(id) {
+      confirm.require({
+        message: "Do you want to delete this record?",
+        header: "Delete Confirmation",
+        icon: "pi pi-info-circle",
+        acceptClass: "p-button-danger",
+        accept: () => {
+          Inertia.visit(route("project.delete", { project: id }), {
+            method: "DELETE",
+          });
+        },
+        reject: () => {
+          //console.log("reject");
+        },
+      });
+    }
+    return { activateProject, deleteProject, activeId };
   },
 };
 </script>

@@ -16,7 +16,8 @@ class CreateNamespaceTable extends Migration
     {
         Schema::create('namespaces', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
-            $table->foreignUuid('project_id')->references('id')->on('projects');
+            $table->foreignUuid('project_id')->references('id')->on('projects')
+                ->onUpdate('CASCADE')->onDelete('CASCADE');
             $table->string('name');
             $table->jsonb('ns_requirements')->nullable();
             $table->jsonb('provider_requirements')->nullable();
