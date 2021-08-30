@@ -11,10 +11,10 @@
       <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
         <div class="text-center mb-5">
           <img
-            src="../../assets/esb.jpg"
+            src="../../assets/logo_transparent.png"
             alt="Image"
-            height="50"
-            class="mb-3"
+            height="100"
+            class="mb-1"
           />
           <div class="text-900 text-3xl font-medium mb-3">Register</div>
         </div>

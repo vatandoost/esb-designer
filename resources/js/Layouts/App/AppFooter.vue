@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import logoImg from "../../assets/esb.jpg";
+import logoImg from "../../assets/logo_transparent.png";
 export default {
   name: "AppFooter",
   setup() {

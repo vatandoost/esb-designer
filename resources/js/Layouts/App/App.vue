@@ -12,7 +12,7 @@
       >
         <div class="layout-logo">
           <Link href="/">
-            <img alt="Logo" :src="logo" width="40" />
+            <img alt="Logo" :src="logo" width="150" />
           </Link>
         </div>
 
@@ -52,7 +52,7 @@ import AppProfile from "@/Layouts/App/AppProfile.vue";
 import AppMenu from "@/Layouts/App/AppMenu.vue";
 import AppFooter from "@/Layouts/App/AppFooter.vue";
 import { Link } from "@inertiajs/inertia-vue3";
-import logoImg from "../../assets/esb.jpg";
+import logoImg from "../../assets/logo_transparent.png";
 
 export default {
   props: {
