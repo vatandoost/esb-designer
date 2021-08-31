@@ -17,7 +17,7 @@ class CreateProviderTable extends Migration
         Schema::create('providers', function (Blueprint $table) {
             $table->uuid('id')->default(new Expression('uuid_generate_v4()'))->primary();
             $table->string('name');
-            $table->tinyInteger('type');
+            $table->string('type');
             $table->foreignUuid('project_id')->references('id')->on('projects');
             $table->jsonb('config')->nullable();
             $table->timestamps();

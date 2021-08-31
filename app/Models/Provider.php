@@ -16,6 +16,12 @@ class Provider extends Model
      */
     protected $keyType = 'string';
 
+    protected $casts = [
+        'config' => 'array',
+    ];
+
+    protected $fillable = ['name', 'type', 'config'];
+
     public function project()
     {
         return $this->belongsTo(Project::class, 'project_id', 'id');

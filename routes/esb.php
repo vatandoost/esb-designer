@@ -5,6 +5,7 @@ use App\Http\Controllers\DbController;
 use App\Http\Controllers\FuncController;
 use App\Http\Controllers\NsController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\UtilityController;
 use Illuminate\Support\Facades\Route;
 
@@ -129,6 +130,27 @@ Route::middleware(['auth'])->group(function () {
             ->name('function.parameter.delete');
         Route::post('/parameters/save', [FuncController::class, 'parameterSave'])
             ->name('function.parameter.save');
+    });
+
+    Route::prefix('provider')->middleware('can:active-project')->group(function () {
+
+        Route::get('/', [ProviderController::class, 'index'])
+            ->name('provider.index');
+
+        Route::post('/', [ProviderController::class, 'store'])
+            ->name('provider.store');
+
+        Route::get('/create', [ProviderController::class, 'create'])
+            ->name('provider.create');
+
+        Route::get('/{provider}', [ProviderController::class, 'edit'])
+            ->name('provider.edit');
+
+        Route::post('/{provider}', [ProviderController::class, 'update'])
+            ->name('provider.update');
+        Route::delete('/{provider}', [ProviderController::class, 'destroy'])
+            ->name('provider.delete');
+            
     });
 
     Route::prefix('utility')->group(function () {

@@ -66,4 +66,13 @@ return [
     'request_type' => 'Request type',
     'response_type' => 'Response type',
     'save_configs' => 'Save Configurations',
+    'auth_type' => 'Authentication Type',
+    'base_url' => 'Base URL',
+    'username' => 'Username',
+    'password' => 'Password',
+    'encryption' => 'encryption',
+    'host' => 'Host',
+    'port' => 'Port',
+    'from_address' => 'From Address',
+    'from_name' => 'From name',
 ];

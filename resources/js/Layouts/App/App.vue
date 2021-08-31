@@ -234,11 +234,11 @@ export default {
           to: "/provider",
           icon: ["fas", "cubes"],
         },
-        {
+        /* {
           label: this.__("messages.variables"),
           to: "/variable",
           icon: ["fas", "wrench"],
-        },
+        }, */
       ];
       if (this.$page.props.activeProject != null) {
         return mainMenu.concat(activeMenu);
