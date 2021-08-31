@@ -75,4 +75,9 @@ return [
     'port' => 'Port',
     'from_address' => 'From Address',
     'from_name' => 'From name',
+    'import' => 'Import',
+    'export' => 'Export',
+    'users' => 'Users',
+    'number_of_projects' => 'Number of projects',
+    'number_of_users' => 'Number of users',
 ];

@@ -1,5 +1,7 @@
 <?php
 
+use App\Models\Project;
+use App\Models\User;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -17,8 +19,11 @@ use Inertia\Inertia;
 
 
 Route::get('/', function () {
-    return Inertia::render('Dashboard');
+    return Inertia::render('Dashboard', [
+        'usersCount' => User::count(),
+        'projectsCount' => Project::count()
+    ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 
-require __DIR__.'/auth.php';
-require __DIR__.'/esb.php';
+require __DIR__ . '/auth.php';
+require __DIR__ . '/esb.php';

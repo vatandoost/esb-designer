@@ -9,6 +9,12 @@
         icon="pi pi-plus"
       />
     </Link>
+    <Button
+      :label="__('messages.import')"
+      icon="pi pi-cloud-upload"
+      class="ml-2 mb-2 p-button-success"
+    />
+
     <DataTable :value="items" stripedRows responsiveLayout="scroll">
       <Column
         field="name"
@@ -26,6 +32,11 @@
             @click="deleteNamespace(slotProps.data.id)"
             icon="pi pi-trash"
             class="ml-2 p-button-danger"
+          />
+          <Button
+            :label="__('messages.export')"
+            icon="pi pi-cloud-download"
+            class="ml-2 p-button-help"
           />
         </template>
       </Column>
