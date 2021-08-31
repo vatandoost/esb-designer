@@ -20,6 +20,13 @@
           <Link :href="'/namespace/' + slotProps.data.id">
             <Button :label="__('messages.edit')" icon="pi pi-pencil" />
           </Link>
+          <Button
+            :disabled="activeProject.main_namespace_id == slotProps.data.id"
+            :label="__('messages.delete')"
+            @click="deleteNamespace(slotProps.data.id)"
+            icon="pi pi-trash"
+            class="ml-2 p-button-danger"
+          />
         </template>
       </Column>
     </DataTable>
@@ -32,6 +39,7 @@ import { Head, Link } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { computed, ref } from "vue";
 import axios from "axios";
+import { useConfirm } from "primevue/useconfirm";
 
 export default {
   components: {
@@ -41,9 +49,27 @@ export default {
   },
   props: {
     items: Array,
+    activeProject: Object,
   },
   setup(props) {
-    return {};
+    const confirm = useConfirm();
+    async function deleteNamespace(id) {
+      confirm.require({
+        message: "Do you want to delete this record?",
+        header: "Delete Confirmation",
+        icon: "pi pi-info-circle",
+        acceptClass: "p-button-danger",
+        accept: () => {
+          Inertia.visit(route("namespace.delete", { ns: id }), {
+            method: "DELETE",
+          });
+        },
+        reject: () => {
+          //console.log("reject");
+        },
+      });
+    }
+    return { deleteNamespace };
   },
 };
 </script>

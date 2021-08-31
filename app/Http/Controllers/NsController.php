@@ -113,6 +113,15 @@ class NsController extends Controller
      */
     public function destroy(Ns $ns)
     {
-        //
+        $ns->delete();
+        Session::flash(
+            'toast_message',
+            [
+                'severity' => 'success',
+                'summary' => __('messages.success'),
+                'detail' => __('messages.success_delete')
+            ]
+        );
+        return redirect()->intended(route('namespace.index'));
     }
 }

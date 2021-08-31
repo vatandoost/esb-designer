@@ -51,6 +51,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::post('/{ns}', [NsController::class, 'update'])
             ->name('namespace.update');
+
+        Route::delete('/{ns}', [NsController::class, 'destroy'])
+            ->name('namespace.delete');
     });
 
     Route::prefix('database')->middleware('can:active-project')->group(function () {
@@ -91,9 +94,9 @@ Route::middleware(['auth'])->group(function () {
             ->name('adapter.update');
         Route::delete('/{adapter}', [AdapterController::class, 'destroy'])
             ->name('adapter.delete');
-            
+
         Route::get('/options/{func}/{type}', [AdapterController::class, 'options'])
-        ->name('adapter.options');
+            ->name('adapter.options');
     });
 
     Route::prefix('function')->middleware('can:active-project')->group(function () {
@@ -150,7 +153,6 @@ Route::middleware(['auth'])->group(function () {
             ->name('provider.update');
         Route::delete('/{provider}', [ProviderController::class, 'destroy'])
             ->name('provider.delete');
-            
     });
 
     Route::prefix('utility')->group(function () {
