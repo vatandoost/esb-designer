@@ -200,39 +200,44 @@ export default {
         {
           label: this.__("messages.dashboard"),
           icon: ["fas", "tachometer-alt"],
-          to: "/",
+          to: route("dashboard"),
         },
         {
           label: this.__("messages.projects"),
-          to: "/project",
+          to: route("project.index"),
           icon: ["fas", "cube"],
         },
       ];
       const activeMenu = [
         {
           label: this.__("messages.namespaces"),
-          to: "/namespace",
+          to: route("namespace.index"),
           icon: ["fas", "folder-open"],
         },
         {
           label: this.__("messages.functions"),
-          to: "/function",
+          to: route("function.index"),
           icon: ["fas", "project-diagram"],
         },
         {
           label: this.__("messages.adapters"),
-          to: "/adapter",
+          to: route("adapter.index"),
           icon: ["fas", "retweet"],
         },
         {
           label: this.__("messages.databases"),
-          to: "/database",
+          to: route("database.index"),
           icon: ["fas", "database"],
         },
         {
           label: this.__("messages.providers"),
-          to: "/provider",
+          to: route("provider.index"),
           icon: ["fas", "cubes"],
+        },
+        {
+          label: this.__("messages.users"),
+          to: route("user.index"),
+          icon: ["fas", "users"],
         },
         /* {
           label: this.__("messages.variables"),

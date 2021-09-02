@@ -1,46 +1,41 @@
 <template>
-  <Head :title="__('messages.namespaces')" />
+  <Head :title="__('messages.users')" />
 
   <App
     :breadcrumbs="[
-      { label: __('messages.namespaces'), to: route('namespace.index') },
+      { label: __('messages.users'), to: route('user.index') },
     ]"
   >
-    <Link :href="route('namespace.create')">
+    <Link :href="route('user.create')">
       <Button
         :label="__('messages.create_new')"
         class="mb-2"
         icon="pi pi-plus"
       />
     </Link>
-    <Button
-      :label="__('messages.import')"
-      icon="pi pi-cloud-upload"
-      class="ml-2 mb-2 p-button-success"
-    />
 
     <DataTable :value="items" stripedRows responsiveLayout="scroll">
       <Column
         field="name"
-        :header="__('messages.name')"
+        :header="__('validation.attributes.name')"
+        :sortable="true"
+      ></Column>
+      <Column
+        field="email"
+        :header="__('validation.attributes.email')"
         :sortable="true"
       ></Column>
       <Column field="id" header="">
         <template #body="slotProps">
-          <Link :href="route('namespace.edit', { ns: slotProps.data.id })">
+          <Link :href="route('user.edit', { user: slotProps.data.id })">
             <Button :label="__('messages.edit')" icon="pi pi-pencil" />
           </Link>
           <Button
-            :disabled="activeProject.main_namespace_id == slotProps.data.id"
+            :disabled="activeProject.main_user_id == slotProps.data.id"
             :label="__('messages.delete')"
-            @click="deleteNamespace(slotProps.data.id)"
+            @click="deleteUser(slotProps.data.id)"
             icon="pi pi-trash"
             class="ml-2 p-button-danger"
-          />
-          <Button
-            :label="__('messages.export')"
-            icon="pi pi-cloud-download"
-            class="ml-2 p-button-help"
           />
         </template>
       </Column>
@@ -53,7 +48,6 @@ import App from "@/Layouts/App/App.vue";
 import { Head, Link } from "@inertiajs/inertia-vue3";
 import { Inertia } from "@inertiajs/inertia";
 import { computed, ref } from "vue";
-import axios from "axios";
 import { useConfirm } from "primevue/useconfirm";
 
 export default {
@@ -68,14 +62,14 @@ export default {
   },
   setup(props) {
     const confirm = useConfirm();
-    async function deleteNamespace(id) {
+    async function deleteUser(id) {
       confirm.require({
         message: "Do you want to delete this record?",
         header: "Delete Confirmation",
         icon: "pi pi-info-circle",
         acceptClass: "p-button-danger",
         accept: () => {
-          Inertia.visit(route("namespace.delete", { ns: id }), {
+          Inertia.visit(route("user.delete", { user: id }), {
             method: "DELETE",
           });
         },
@@ -84,7 +78,7 @@ export default {
         },
       });
     }
-    return { deleteNamespace };
+    return { deleteUser };
   },
 };
 </script>

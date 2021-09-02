@@ -6,6 +6,7 @@ use App\Http\Controllers\FuncController;
 use App\Http\Controllers\NsController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProviderController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\UtilityController;
 use Illuminate\Support\Facades\Route;
 
@@ -153,6 +154,27 @@ Route::middleware(['auth'])->group(function () {
             ->name('provider.update');
         Route::delete('/{provider}', [ProviderController::class, 'destroy'])
             ->name('provider.delete');
+    });
+
+    Route::prefix('user')->middleware('can:admin')->group(function () {
+
+        Route::get('/', [UserController::class, 'index'])
+            ->name('user.index');
+
+        Route::post('/', [UserController::class, 'store'])
+            ->name('user.store');
+
+        Route::get('/create', [UserController::class, 'create'])
+            ->name('user.create');
+
+        Route::get('/{user}', [UserController::class, 'edit'])
+            ->name('user.edit');
+
+        Route::post('/{user}', [UserController::class, 'update'])
+            ->name('user.update');
+
+        Route::delete('/{user}', [UserController::class, 'destroy'])
+            ->name('user.delete');
     });
 
     Route::prefix('utility')->group(function () {

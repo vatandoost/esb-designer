@@ -31,5 +31,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('active-project', function () {
             return Session::has('active_project');
         });
+        Gate::define('admin', function (User $user) {
+            return $user->is_admin ?? false;
+        });
     }
 }

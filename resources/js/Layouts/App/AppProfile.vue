@@ -14,12 +14,6 @@
           </button>
         </li>
         <li>
-          <button class="p-link">
-            <i class="pi pi-fw pi-inbox"></i><span>Notifications</span
-            ><span class="menuitem-badge">2</span>
-          </button>
-        </li>
-        <li>
           <Link :href="route('logout')" method="post">
             <button class="p-link">
               <i class="pi pi-fw pi-power-off"></i>

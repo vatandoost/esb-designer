@@ -154,6 +154,9 @@ return [
 
     'attributes' => [
         'name' => 'name',
+        'email' => 'email',
+        'password' => 'password',
+        'is_admin' => 'is admin',
         'type' => 'type',
         'dir_type' => 'direction type',
         'direction' => 'direction',
@@ -163,8 +166,9 @@ return [
         'schema' => 'schema',
         'username' => 'username',
         'password' => 'password',
-        'is_public' => 'Is Public',
-        'is_assignable' => 'Assignable',
+        'password_confirmation' => 'confirm password',
+        'is_public' => 'is public',
+        'is_assignable' => 'assignable',
         'namespace' => 'namespace',
         'namespace_id' => 'namespace',
         'default' => 'default',
