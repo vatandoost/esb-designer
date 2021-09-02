@@ -176,6 +176,12 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/{user}', [UserController::class, 'destroy'])
             ->name('user.delete');
     });
+    Route::prefix('profile')->group(function () {
+        Route::get('/', [UserController::class, 'profile'])
+            ->name('user.profile');
+        Route::post('/', [UserController::class, 'updateProfile'])
+            ->name('user.profile.update');
+    });
 
     Route::prefix('utility')->group(function () {
 

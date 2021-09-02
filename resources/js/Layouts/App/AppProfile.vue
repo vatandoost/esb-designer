@@ -9,9 +9,12 @@
     <transition name="layout-submenu-wrapper">
       <ul v-show="expanded">
         <li>
-          <button class="p-link">
-            <i class="pi pi-fw pi-user"></i><span>Account</span>
-          </button>
+          <Link :href="route('user.profile')">
+            <button class="p-link">
+              <i class="pi pi-fw pi-user"></i
+              ><span>{{ __("messages.profile") }}</span>
+            </button>
+          </Link>
         </li>
         <li>
           <Link :href="route('logout')" method="post">

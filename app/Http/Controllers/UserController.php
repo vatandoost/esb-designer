@@ -69,17 +69,42 @@ class UserController extends Controller
         return redirect()->intended(route('user.index'));
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\User  $user
-     * @return \Illuminate\Http\Response
-     */
-    public function show(User $user)
+    public function profile()
     {
-        return Inertia::render('User/Edit', [
-            'item' => $user
+        return Inertia::render('User/Profile', [
+            'item' => Auth::user()
         ]);
+    }
+
+    public function updateProfile(Request $request)
+    {
+        /** @var User */
+        $user = Auth::user();
+        $rules = [
+            'name' => 'required|string|max:255',
+            'email' => "required|string|email|max:255|unique:users,email," . $user->id,
+        ];
+        $fields = [
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ];
+        if (!empty($request->password)) {
+            $rules['password'] = ['confirmed', Rules\Password::defaults()];
+        } else {
+            unset($fields['password']);
+        }
+        $request->validate($rules);
+        $user->update($fields);
+        Session::flash(
+            'toast_message',
+            [
+                'severity' => 'success',
+                'summary' => __('messages.success'),
+                'detail' => __('messages.success_update')
+            ]
+        );
+        return redirect()->intended(route('dashboard'));
     }
 
     /**

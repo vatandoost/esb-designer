@@ -80,4 +80,5 @@ return [
     'users' => 'Users',
     'number_of_projects' => 'Number of projects',
     'number_of_users' => 'Number of users',
+    'profile' => 'Profile'
 ];
