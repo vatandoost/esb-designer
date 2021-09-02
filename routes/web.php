@@ -3,6 +3,7 @@
 use App\Models\Project;
 use App\Models\User;
 use Illuminate\Foundation\Application;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -19,9 +20,13 @@ use Inertia\Inertia;
 
 
 Route::get('/', function () {
+    $isAdmin = Auth::user()->can('admin');
+    $projectsCount = $isAdmin ? Project::count() : Project::where('owner_id', Auth::id())->count();
+
     return Inertia::render('Dashboard', [
         'usersCount' => User::count(),
-        'projectsCount' => Project::count()
+        'projectsCount' => $projectsCount,
+        'isAdmin' => $isAdmin
     ]);
 })->middleware(['auth', 'verified'])->name('dashboard');
 

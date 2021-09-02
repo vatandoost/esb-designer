@@ -3,7 +3,7 @@
 
   <App :breadcrumbs="[{ label: __('messages.dashboard')}]">
     <div class="grid fluid dashboard">
-      <div class="col-12 lg:col-6">
+      <div class="col-12 lg:col-6" v-if="isAdmin">
         <div class="card summary">
           <span class="title">{{ __("messages.users") }}</span>
           <span class="detail">{{ __("messages.number_of_users") }}</span>
@@ -30,6 +30,7 @@ export default {
   props: {
     projectsCount: Number,
     usersCount: Number,
+    isAdmin: Boolean,
   },
   components: {
     App,

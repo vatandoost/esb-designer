@@ -16,11 +16,7 @@ class ProjectsTest extends TestCase
 {
     use RefreshDatabase;
     use WithFaker;
-    /**
-     * A basic feature test example.
-     *
-     * @return void
-     */
+    
     public function test_needs_login()
     {
         $response = $this->get('/project');
